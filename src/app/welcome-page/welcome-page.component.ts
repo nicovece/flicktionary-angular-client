@@ -1,9 +1,10 @@
 // src/app/app.component.ts
 import { Component } from '@angular/core';
-import { UserRegistrationFormComponent } from './user-registration-form/user-registration-form.component';
+import { UserRegistrationFormComponent } from '../user-registration-form/user-registration-form.component';
 import { MatDialog } from '@angular/material/dialog';
-import { UserLoginFormComponent } from './user-login-form/user-login-form.component';
-import { MovieCardComponent } from './movie-card/movie-card.component';
+import { UserLoginFormComponent } from '../user-login-form/user-login-form.component';
+import { MovieCardComponent } from '../movie-card/movie-card.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-welcome-page',
@@ -13,7 +14,7 @@ import { MovieCardComponent } from './movie-card/movie-card.component';
 export class WelcomePageComponent {
   title = 'flicktionary-angular-client';
 
-  constructor(public dialog: MatDialog) {}
+  constructor(public dialog: MatDialog, private router: Router) {}
   // This is the function that will open the dialog when the signup button is clicked
   openUserRegistrationDialog(): void {
     this.dialog.open(UserRegistrationFormComponent, {
@@ -23,8 +24,15 @@ export class WelcomePageComponent {
   }
 
   openUserLoginDialog(): void {
-    this.dialog.open(UserLoginFormComponent, {
+    const dialogRef = this.dialog.open(UserLoginFormComponent, {
       width: '280px',
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      // You can pass a flag or result from the dialog to indicate successful login
+      if (result === 'success') {
+        this.router.navigate(['movies']);
+      }
     });
   }
 
