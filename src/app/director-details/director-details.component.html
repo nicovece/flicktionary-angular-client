@@ -1,0 +1,10 @@
+<div *ngIf="director">
+  <h2>{{ director.Name }}</h2>
+  <p>{{ director.Description }}</p>
+  <p>{{ director.Birth }}</p>
+  <p>{{ director.Death }}</p>
+  <!-- Add more fields as needed -->
+</div>
+<div *ngIf="!director">
+  Loading...
+</div>
