@@ -6,6 +6,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatIconModule } from '@angular/material/icon';
+import { MatDialog } from '@angular/material/dialog';
+import { MovieDetailsComponent } from '../movie-details/movie-details.component';
 
 @Component({
   selector: 'app-movie-card',
@@ -22,7 +24,10 @@ import { MatIconModule } from '@angular/material/icon';
 })
 export class MovieCardComponent {
   movies: any[] = [];
-  constructor(public fetchMovies: FetchApiDataService) {}
+  constructor(
+    public fetchMovies: FetchApiDataService,
+    public dialog: MatDialog
+  ) {}
 
   ngOnInit(): void {
     this.getMovies();
@@ -33,6 +38,13 @@ export class MovieCardComponent {
       this.movies = resp;
       console.log(this.movies);
       return this.movies;
+    });
+  }
+
+  openMovieDetailsDialog(movie: any): void {
+    this.dialog.open(MovieDetailsComponent, {
+      width: '500px',
+      data: { movieTitle: movie.Title },
     });
   }
 }
