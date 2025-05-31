@@ -12,6 +12,7 @@ import {
   provideClientHydration,
   withEventReplay,
 } from '@angular/platform-browser';
+import { AuthGuard } from './auth.guard';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -20,5 +21,6 @@ export const appConfig: ApplicationConfig = {
     provideClientHydration(withEventReplay()),
     provideHttpClient(withFetch()),
     importProvidersFrom(MatIconModule),
+    importProvidersFrom(AuthGuard),
   ],
 };
