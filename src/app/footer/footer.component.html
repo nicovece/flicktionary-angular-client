@@ -1,9 +1,10 @@
-<mat-toolbar color="secondary">
+<mat-toolbar class="footer">
   <div class="title-container">
-    <h1>F L I C K T I O N A R Y!</h1>
-    <h2>A dictionary for flicks</h2>
+    <h6 class="text-info">{{ today | date:'yyyy' }}</h6>
+    <h6 class="text-info">F L I C K T I O N A R Y</h6>
+    <h6 class="text-info">A dictionary for flicks</h6>
   </div>
-  <span class="main-toolbar__filler"></span>
+  <span class="footer__filler"></span>
   <ng-container *ngIf="isLoggedIn">
     <span>
       <button mat-button routerLink="/movies" routerLinkActive="active-link">Movies</button>
