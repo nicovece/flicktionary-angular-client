@@ -12,6 +12,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { FetchApiDataService } from '../fetch-api-data.service';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-user-edit-profile',
   standalone: true,
@@ -34,7 +35,8 @@ export class UserEditProfileComponent {
     public fetchApiData: FetchApiDataService,
     public dialogRef: MatDialogRef<UserEditProfileComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { user: any },
-    public snackBar: MatSnackBar
+    public snackBar: MatSnackBar,
+    public router: Router
   ) {}
 
   ngOnInit(): void {
@@ -42,15 +44,29 @@ export class UserEditProfileComponent {
     if (this.editUserData.Birthday) {
       this.editUserData.Birthday = this.editUserData.Birthday.split('T')[0];
     }
+    this.editUserData.Password = ''; // Always start empty
   }
 
   updateUser(): void {
-    this.fetchApiData.editUser(this.editUserData).subscribe({
+    // Create a copy to avoid mutating the form data
+    const updatePayload = { ...this.editUserData };
+    if (!updatePayload.Password) {
+      delete updatePayload.Password; // Remove password if not set
+    }
+    const passwordChanged = !!this.editUserData.Password;
+
+    this.fetchApiData.editUser(updatePayload).subscribe({
       next: (result) => {
         this.snackBar.open('Profile updated successfully!', 'OK', {
           duration: 2000,
         });
-        this.dialogRef.close(true); // Optionally pass a flag to indicate success
+        this.dialogRef.close(true);
+        if (passwordChanged) {
+          localStorage.removeItem('user');
+          localStorage.removeItem('token');
+          // Use router if injected, otherwise fallback to window.location
+          window.location.href = '/welcome';
+        }
       },
       error: (err) => {
         this.snackBar.open('Update failed. Please try again.', 'OK', {
