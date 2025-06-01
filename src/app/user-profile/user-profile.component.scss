@@ -1,0 +1,26 @@
+@use 'sass:map';
+@use '@angular/material' as mat;
+@use '../../theme/flicktionary-colors' as theme-colors;
+
+.user-profile {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+.user-profile__card {
+  margin-bottom: 2rem;
+  background-color: transparent;
+  color: map.get(theme-colors.$original-palette, 'light');
+}
+
+.favorite-movies {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  .favorite-movies__title {
+    font-size: 1.25rem;
+    font-weight: 500;
+    margin-bottom: 1rem;
+    padding: 24px 24px 0;
+    color: map.get(theme-colors.$original-palette, 'light');
+  }
+}

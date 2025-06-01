@@ -41,13 +41,24 @@ html {
   );
 }
 
-.movie-card-container {
+// .movie-card-container {
+:root {
   @include mat.card-overrides(
     (
       subtitle-text-color: map.get(theme-colors.$original-palette, 'light'),
       outlined-outline-color: map.get(theme-colors.$primary-palette, 20),
     )
   );
+}
+
+.movie-card-container {
+  .movie-card-container__title {
+    font-size: 1.25rem;
+    font-weight: 500;
+    margin-bottom: 1rem;
+    padding: 24px 24px 0;
+    color: map.get(theme-colors.$original-palette, 'light');
+  }
 }
 
 // $my-primary: mat.define-palette(theme-colors.$primary-palette);
