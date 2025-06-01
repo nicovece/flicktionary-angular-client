@@ -34,6 +34,7 @@ export class MovieCardComponent implements OnInit, OnChanges {
   movies: any[] = [];
   allMovies: any[] = [];
   @Input() favoriteMovieIds: string[] = [];
+  @Input() showOnlyFavorites = false;
   constructor(
     public fetchMovies: FetchApiDataService,
     public dialog: MatDialog,
@@ -42,14 +43,16 @@ export class MovieCardComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     if (!this.favoriteMovieIds || this.favoriteMovieIds.length === 0) {
-      this.favoriteMovieIds = [];
       this.getUserFavorites();
     }
     this.getMovies();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['favoriteMovieIds'] && this.allMovies.length > 0) {
+    if (
+      (changes['favoriteMovieIds'] || changes['showOnlyFavorites']) &&
+      this.allMovies.length > 0
+    ) {
       this.filterMovies();
     }
   }
@@ -58,13 +61,16 @@ export class MovieCardComponent implements OnInit, OnChanges {
     this.fetchMovies.getAllMovies().subscribe((resp: any) => {
       this.allMovies = resp;
       this.filterMovies();
-      console.log(this.movies);
       return this.movies;
     });
   }
 
   filterMovies(): void {
-    if (this.favoriteMovieIds && this.favoriteMovieIds.length > 0) {
+    if (
+      this.showOnlyFavorites &&
+      this.favoriteMovieIds &&
+      this.favoriteMovieIds.length > 0
+    ) {
       this.movies = this.allMovies.filter((movie: any) =>
         this.favoriteMovieIds.includes(movie._id)
       );
@@ -99,6 +105,7 @@ export class MovieCardComponent implements OnInit, OnChanges {
     if (username) {
       this.fetchMovies.getUser(username).subscribe((user: any) => {
         this.favoriteMovieIds = user.FavoriteMovies || [];
+        this.filterMovies();
       });
     }
   }

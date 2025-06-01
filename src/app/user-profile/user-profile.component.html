@@ -13,7 +13,7 @@
     <mat-card-title>Favorite Movies</mat-card-title>
   </mat-card-header>
 
-  <app-movie-card [favoriteMovieIds]="user.FavoriteMovies"></app-movie-card>
+  <app-movie-card [favoriteMovieIds]="user.FavoriteMovies" [showOnlyFavorites]="true"></app-movie-card>
 </mat-card>
 
 <ng-template #loadingTemplate>
