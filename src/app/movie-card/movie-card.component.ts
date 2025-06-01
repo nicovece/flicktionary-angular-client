@@ -4,7 +4,7 @@ import { FetchApiDataService } from '../fetch-api-data.service';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialog } from '@angular/material/dialog';
 import { MovieDetailsComponent } from '../movie-details/movie-details.component';
@@ -26,13 +26,16 @@ import { DirectorDetailsComponent } from '../director-details/director-details.c
 })
 export class MovieCardComponent {
   movies: any[] = [];
+  favoriteMovieIds: string[] = [];
   constructor(
     public fetchMovies: FetchApiDataService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
     this.getMovies();
+    this.getUserFavorites();
   }
 
   getMovies(): void {
@@ -62,5 +65,31 @@ export class MovieCardComponent {
       width: '500px',
       data: { directorName: director.Name },
     });
+  }
+
+  getUserFavorites(): void {
+    const username = localStorage.getItem('user');
+    if (username) {
+      this.fetchMovies.getUser(username).subscribe((user: any) => {
+        this.favoriteMovieIds = user.FavoriteMovies || [];
+      });
+    }
+  }
+
+  toggleFavorite(movie: any): void {
+    const isFavorite = this.favoriteMovieIds.includes(movie._id);
+    if (isFavorite) {
+      this.fetchMovies.deleteFavoriteMovie(movie._id).subscribe(() => {
+        this.favoriteMovieIds = this.favoriteMovieIds.filter(
+          (id) => id !== movie._id
+        );
+        this.snackBar.open('Removed from favorites!', 'OK', { duration: 2000 });
+      });
+    } else {
+      this.fetchMovies.addFavoriteMovie(movie._id).subscribe(() => {
+        this.favoriteMovieIds.push(movie._id);
+        this.snackBar.open('Added to favorites!', 'OK', { duration: 2000 });
+      });
+    }
   }
 }
