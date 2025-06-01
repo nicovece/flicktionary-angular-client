@@ -1,4 +1,4 @@
-<mat-card>
+<!-- <mat-card>
   <mat-card-title>Edit Profile</mat-card-title>
   <mat-card-content>
     <form>
@@ -20,4 +20,28 @@
     <button mat-raised-button color="primary" (click)="updateUser()">Save</button>
     <button mat-button (click)="dialogRef.close()">Cancel</button>
   </mat-card-actions>
-</mat-card>
+</mat-card> -->
+
+<div class="dialog-container">
+  <h2 mat-dialog-title class="dialog-title">Edit Profile</h2>
+  <mat-dialog-content class="dialog-content">
+    <form>
+      <mat-form-field>
+        <input matInput [(ngModel)]="editUserData.Username" name="Username" placeholder="Username" required>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput [(ngModel)]="editUserData.Email" name="Email" placeholder="Email" type="email" required>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput [(ngModel)]="editUserData.Birthday" name="Birthday" placeholder="Birthday" type="date">
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput [(ngModel)]="editUserData.Password" name="Password" placeholder="Password" type="password">
+      </mat-form-field>
+    </form>
+  </mat-dialog-content>
+  <mat-dialog-actions class="dialog-actions">
+    <button mat-button (click)="dialogRef.close()">Cancel</button>
+    <button mat-raised-button color="primary" (click)="updateUser()">Save</button>
+  </mat-dialog-actions>
+</div>
