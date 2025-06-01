@@ -6,6 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { Router, RouterModule } from '@angular/router';
 import { isPlatformBrowser } from '@angular/common';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-navbar',
@@ -17,6 +18,7 @@ import { isPlatformBrowser } from '@angular/common';
     RouterModule,
     MatMenuModule,
     RouterModule,
+    MatTooltipModule,
   ],
   templateUrl: './app-navbar.component.html',
   styleUrl: './app-navbar.component.scss',

@@ -1,14 +1,25 @@
-<mat-toolbar color="secondary">
-  <div class="title-container">
+<mat-toolbar class="main-toolbar">
+  <div class="main-toolbar__title">
     <h1>F L I C K T I O N A R Y!</h1>
     <h2>A dictionary for flicks</h2>
   </div>
   <span class="main-toolbar__filler"></span>
   <ng-container *ngIf="isLoggedIn">
-    <span>
-      <button mat-button routerLink="/movies" routerLinkActive="active-link">Movies</button>
-      <button mat-button routerLink="/profile" routerLinkActive="active-link">Profile</button>
-    </span>
-    <button mat-button (click)="userLogout()">Logout</button>
+    <div class="main-toolbar__buttons">
+      <button mat-icon-button color="primary" routerLink="/movies" routerLinkActive="active-link"
+        matTooltip="Movies dictionary" aria-label="Movies dictionary" class="main-toolbar__icon-button">
+        <mat-icon>dashboard</mat-icon>
+      </button>
+
+      <button mat-icon-button color="primary" routerLink="/profile" routerLinkActive="active-link"
+        matTooltip="Your profile" aria-label="Your profile" class="main-toolbar__icon-button">
+        <mat-icon>person</mat-icon>
+      </button>
+
+      <button mat-icon-button color="primary" (click)="userLogout()" matTooltip="Log out"
+        aria-label="Log out from the application" class="main-toolbar__icon-button">
+        <mat-icon>logout</mat-icon>
+      </button>
+    </div>
   </ng-container>
 </mat-toolbar>

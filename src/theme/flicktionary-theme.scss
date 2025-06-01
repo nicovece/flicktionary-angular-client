@@ -1,15 +1,41 @@
+@use 'sass:map';
+@use './flicktionary-colors' as theme-colors;
 @use '@angular/material' as mat;
 
 html {
   @include mat.theme(
     (
       color: (
-        primary: mat.$violet-palette,
-        tertiary: mat.$orange-palette,
-        theme-type: light,
+        primary: theme-colors.$primary-palette,
+        tertiary: theme-colors.$tertiary-palette,
       ),
       typography: Roboto,
       density: 0,
     )
   );
 }
+
+:root {
+  @include mat.button-overrides(
+    (
+      text-label-text-color: map.get(theme-colors.$original-palette, 'light'),
+      text-hover-state-layer-opacity: 0.25,
+    )
+  );
+}
+
+// $my-primary: mat.define-palette(theme-colors.$primary-palette);
+// $my-accent: mat.define-palette(theme-colors.$tertiary-palette);
+// $my-warn: mat.define-palette(theme-colors.$error);
+
+// $my-theme: mat.define-light-theme(
+//   (
+//     color: (
+//       primary: $my-primary,
+//       accent: $my-accent,
+//       warn: $my-warn,
+//     ),
+//   )
+// );
+
+// @include mat.all-component-themes($my-theme);
