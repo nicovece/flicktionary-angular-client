@@ -9,11 +9,13 @@
         <p><em>Email:</em> {{ user.Email }}</p>
         <p><em>Birthday:</em> {{ formattedBirthday }}</p>
         <h4>You can edit or delete your profile below.</h4>
+      </mat-card-content>
+      <mat-card-actions>
         <button mat-raised-button color="primary" (click)="openEditProfileDialog()">Edit Profile</button>
-        <button mat-raised-button color="primary" (click)="deleteAccount()">
+        <button mat-raised-button color="warn" (click)="deleteAccount()">
           Delete Account
         </button>
-      </mat-card-content>
+      </mat-card-actions>
     </mat-card>
   </div>
 </div>
