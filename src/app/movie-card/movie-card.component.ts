@@ -111,11 +111,13 @@ export class MovieCardComponent implements OnInit, OnChanges {
           (id) => id !== movie._id
         );
         this.snackBar.open('Removed from favorites!', 'OK', { duration: 2000 });
+        this.filterMovies();
       });
     } else {
       this.fetchMovies.addFavoriteMovie(movie._id).subscribe(() => {
         this.favoriteMovieIds.push(movie._id);
         this.snackBar.open('Added to favorites!', 'OK', { duration: 2000 });
+        this.filterMovies();
       });
     }
   }
