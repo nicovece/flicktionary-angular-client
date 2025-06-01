@@ -97,4 +97,37 @@ export class UserProfileComponent {
       }
     });
   }
+
+  deleteAccount(): void {
+    const username = localStorage.getItem('user');
+    if (!username) {
+      return;
+    }
+    if (
+      confirm(
+        'Are you sure you want to delete your account? This action cannot be undone.'
+      )
+    ) {
+      this.fetchApiData.deleteUser(username).subscribe({
+        next: () => {
+          // Clean up all user-related data from localStorage
+          localStorage.removeItem('user');
+          localStorage.removeItem('token');
+          // If you store other keys, remove them here as well
+          // localStorage.removeItem('otherKey');
+
+          // Optionally reset in-memory user state
+          this.user = {};
+          this.formattedBirthday = '';
+
+          // Redirect to welcome view
+          this.router.navigate(['/welcome']);
+        },
+        error: (err) => {
+          // Optionally show an error message
+          console.error('Failed to delete account', err);
+        },
+      });
+    }
+  }
 }

@@ -10,6 +10,9 @@
         <p><em>Birthday:</em> {{ formattedBirthday }}</p>
         <h4>You can edit or delete your profile below.</h4>
         <button mat-raised-button color="primary" (click)="openEditProfileDialog()">Edit Profile</button>
+        <button mat-raised-button color="primary" (click)="deleteAccount()">
+          Delete Account
+        </button>
       </mat-card-content>
     </mat-card>
   </div>
