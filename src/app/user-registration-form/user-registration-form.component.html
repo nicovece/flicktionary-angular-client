@@ -1,4 +1,4 @@
-<mat-card>
+<!-- <mat-card>
   <mat-card-header>
     <mat-card-title>Sign Up!</mat-card-title>
   </mat-card-header>
@@ -23,4 +23,30 @@
       Sign Up
     </button>
   </mat-card-actions>
-</mat-card>
+</mat-card> -->
+
+<div class="dialog-container">
+  <h2 mat-dialog-title class="dialog-title">Sign Up</h2>
+  <mat-dialog-content class="dialog-content">
+    <form>
+      <mat-form-field>
+        <input matInput [(ngModel)]="userData.Username" placeholder="Username" type="text" name="Username" required>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput [(ngModel)]="userData.Password" type="password" placeholder="Password" name="Password" required>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput [(ngModel)]="userData.Email" type="email" placeholder="Email" name="Email" required>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput [(ngModel)]="userData.Birthday" type="date" placeholder="Birthday" name="Birthday">
+      </mat-form-field>
+    </form>
+  </mat-dialog-content>
+  <mat-dialog-actions class="dialog-actions">
+
+    <button mat-raised-button (click)="registerUser()" color="primary">
+      Sign Up
+    </button>
+  </mat-dialog-actions>
+</div>
