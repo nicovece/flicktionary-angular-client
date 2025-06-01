@@ -1,4 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  OnChanges,
+  SimpleChanges,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FetchApiDataService } from '../fetch-api-data.service';
 import { MatCardModule } from '@angular/material/card';
@@ -24,9 +30,10 @@ import { DirectorDetailsComponent } from '../director-details/director-details.c
     MatIconModule,
   ],
 })
-export class MovieCardComponent {
+export class MovieCardComponent implements OnInit, OnChanges {
   movies: any[] = [];
-  favoriteMovieIds: string[] = [];
+  allMovies: any[] = [];
+  @Input() favoriteMovieIds: string[] = [];
   constructor(
     public fetchMovies: FetchApiDataService,
     public dialog: MatDialog,
@@ -34,16 +41,36 @@ export class MovieCardComponent {
   ) {}
 
   ngOnInit(): void {
+    if (!this.favoriteMovieIds || this.favoriteMovieIds.length === 0) {
+      this.favoriteMovieIds = [];
+      this.getUserFavorites();
+    }
     this.getMovies();
-    this.getUserFavorites();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['favoriteMovieIds'] && this.allMovies.length > 0) {
+      this.filterMovies();
+    }
   }
 
   getMovies(): void {
     this.fetchMovies.getAllMovies().subscribe((resp: any) => {
-      this.movies = resp;
+      this.allMovies = resp;
+      this.filterMovies();
       console.log(this.movies);
       return this.movies;
     });
+  }
+
+  filterMovies(): void {
+    if (this.favoriteMovieIds && this.favoriteMovieIds.length > 0) {
+      this.movies = this.allMovies.filter((movie: any) =>
+        this.favoriteMovieIds.includes(movie._id)
+      );
+    } else {
+      this.movies = this.allMovies;
+    }
   }
 
   openMovieDetailsDialog(movie: any): void {

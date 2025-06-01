@@ -11,6 +11,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Router } from '@angular/router';
 import { UserEditProfileComponent } from '../user-edit-profile/user-edit-profile.component';
+import { MovieCardComponent } from '../movie-card/movie-card.component';
 
 @Component({
   selector: 'app-user-profile',
@@ -24,6 +25,7 @@ import { UserEditProfileComponent } from '../user-edit-profile/user-edit-profile
     MatFormFieldModule,
     MatInputModule,
     MatProgressSpinnerModule,
+    MovieCardComponent,
   ],
   templateUrl: './user-profile.component.html',
   styleUrl: './user-profile.component.scss',

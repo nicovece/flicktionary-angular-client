@@ -8,6 +8,13 @@
     <button mat-raised-button color="primary" (click)="openEditProfileDialog()">Edit Profile</button>
   </mat-card-content>
 </mat-card>
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Favorite Movies</mat-card-title>
+  </mat-card-header>
+
+  <app-movie-card [favoriteMovieIds]="user.FavoriteMovies"></app-movie-card>
+</mat-card>
 
 <ng-template #loadingTemplate>
   <div style="display: flex; justify-content: center; align-items: center; height: 200px;">
