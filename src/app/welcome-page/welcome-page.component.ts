@@ -2,14 +2,17 @@
 import { Component } from '@angular/core';
 import { UserRegistrationFormComponent } from '../user-registration-form/user-registration-form.component';
 import { MatDialog } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
 import { UserLoginFormComponent } from '../user-login-form/user-login-form.component';
 import { MovieCardComponent } from '../movie-card/movie-card.component';
 import { Router } from '@angular/router';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-welcome-page',
   templateUrl: './welcome-page.component.html',
   styleUrls: ['./welcome-page.component.scss'],
+  imports: [MatButtonModule, MatIconModule],
 })
 export class WelcomePageComponent {
   title = 'flicktionary-angular-client';

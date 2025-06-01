@@ -1,0 +1,13 @@
+@use 'sass:map';
+@use '@angular/material' as mat;
+@use '../../theme/flicktionary-colors' as theme-colors;
+
+.main-page {
+  .main-page__title {
+    font-size: 2rem;
+    font-weight: 500;
+    margin-top: 0;
+    margin-bottom: 2rem;
+    color: map.get(theme-colors.$original-palette, 'light');
+  }
+}
