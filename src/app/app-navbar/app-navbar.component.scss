@@ -2,22 +2,27 @@
 @use '../../theme/flicktionary-colors' as theme-colors;
 @use '@angular/material' as mat;
 
+.main-toolbar-container {
+  padding: 1.5rem;
+  background-color: map.get(theme-colors.$original-palette, 'dark-light');
+}
 .main-toolbar,
 .main-toolbar.mat-toolbar {
-  background-color: map.get(theme-colors.$original-palette, 'dark-light');
+  background-color: transparent;
   .main-toolbar__title {
     color: map.get(theme-colors.$original-palette, 'light');
     h1 {
-      font-size: 2rem;
-      font-weight: 700;
-      line-height: 1.2;
-      margin-bottom: 0;
+      font-size: calc(1.275rem + 0.3vw) !important;
+      margin-top: 0;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      line-height: 1.1;
     }
     h2 {
       font-size: 1rem;
-      font-weight: 400;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
       line-height: 1.2;
-      margin-top: 0;
     }
   }
   .main-toolbar__filler {
@@ -29,14 +34,8 @@
   }
   .main-toolbar__icon-button {
     color: map.get(theme-colors.$original-palette, 'light');
+    &.active-link {
+      color: map.get(theme-colors.$original-palette, 'secondary_');
+    }
   }
-}
-:root {
-  @include mat.tooltip-overrides(
-    (
-      container-color: orange,
-      supporting-text-color: red,
-      supporting-text-size: 2rem,
-    )
-  );
 }

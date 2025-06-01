@@ -1,0 +1,49 @@
+@use 'sass:map';
+@use '@angular/material' as mat;
+@use '../../theme/flicktionary-colors' as theme-colors;
+
+.movie-card-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 2rem;
+  margin: 2rem 0;
+  padding: 2rem;
+  .movie-card {
+    display: grid;
+    grid-template-areas:
+      'one two'
+      'one three';
+    grid-template-columns: 26% 74%;
+    grid-template-rows: 60% 40%;
+    padding: 0.75rem;
+
+    background-color: transparent;
+  }
+  .mat-mdc-card-header {
+    grid-area: two;
+  }
+  .movie-card__image-container {
+    grid-area: one;
+  }
+  .movie-card__image {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+  }
+  .mat-mdc-card-actions {
+    grid-area: three;
+  }
+  .mat-mdc-card-title {
+    color: map.get(theme-colors.$original-palette, 'light');
+  }
+  .mat-mdc-icon-button {
+    color: map.get(theme-colors.$original-palette, 'primary');
+    margin-left: auto;
+  }
+  @media (width >= 940px) {
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  }
+  @media (width >= 1200px) {
+    grid-template-columns: repeat(auto-fill, minmax(520px, 1fr));
+  }
+}

@@ -1,8 +1,9 @@
 // Custom Theming for Angular Material
 // For more information: https://material.angular.dev/guide/theming
 @use '@angular/material' as mat;
-
+@use 'sass:map';
 @use './theme/flicktionary-theme.scss';
+@use './theme/flicktionary-colors' as theme-colors;
 
 // html {
 //   @include mat.theme(
@@ -25,4 +26,69 @@ body {
 body {
   margin: 0;
   font-family: Roboto, 'Helvetica Neue', sans-serif;
+  background: map.get(theme-colors.$original-palette, 'body-bg');
+}
+
+.container,
+.mat-toolbar.container {
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+.dialog-container {
+  // padding: 2rem;
+  color: map.get(theme-colors.$original-palette, 'light');
+  .dialog-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    padding: 24px 24px 0;
+  }
+  .dialog-content {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+  }
+  .dialog-actions {
+    display: flex;
+    justify-content: flex-end;
+    .dialog-actions__icon-button {
+      background-color: transparent;
+      color: map.get(theme-colors.$original-palette, 'light');
+    }
+  }
+}
+
+@media (width >= 576px) {
+  .container,
+  .mat-toolbar.container {
+    max-width: 540px;
+  }
+}
+
+@media (width >= 768px) {
+  .container,
+  .mat-toolbar.container {
+    max-width: 720px;
+  }
+}
+
+@media (width >= 992px) {
+  .container,
+  .mat-toolbar.container {
+    max-width: 960px;
+  }
+}
+
+@media (width >= 1200px) {
+  .container,
+  .mat-toolbar.container {
+    max-width: 1140px;
+  }
+}
+
+@media (width >= 1400px) {
+  .container,
+  .mat-toolbar.container {
+    max-width: 1320px;
+  }
 }

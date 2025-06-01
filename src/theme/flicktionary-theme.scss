@@ -22,6 +22,32 @@ html {
       text-hover-state-layer-opacity: 0.25,
     )
   );
+
+  @include mat.tooltip-overrides(
+    (
+      container-color: map.get(theme-colors.$original-palette, 'primary--dark'),
+      supporting-text-color: map.get(theme-colors.$original-palette, 'light'),
+    )
+  );
+
+  @include mat.dialog-overrides(
+    (
+      container-color: map.get(theme-colors.$original-palette, 'primary--dark'),
+      subhead-color: map.get(theme-colors.$original-palette, 'light'),
+      supporting-text-color: map.get(theme-colors.$original-palette, 'light'),
+      content-padding: 0,
+      headline-padding: 0,
+    )
+  );
+}
+
+.movie-card-container {
+  @include mat.card-overrides(
+    (
+      subtitle-text-color: map.get(theme-colors.$original-palette, 'light'),
+      outlined-outline-color: map.get(theme-colors.$primary-palette, 20),
+    )
+  );
 }
 
 // $my-primary: mat.define-palette(theme-colors.$primary-palette);

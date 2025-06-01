@@ -1,15 +1,20 @@
-<mat-toolbar class="footer">
-  <div class="title-container">
-    <h6 class="text-info">{{ today | date:'yyyy' }}</h6>
-    <h6 class="text-info">F L I C K T I O N A R Y</h6>
-    <h6 class="text-info">A dictionary for flicks</h6>
+<div class="footer-container">
+  <div class="container">
+    <mat-toolbar class="footer">
+      <div class="title-container">
+        <h6 class="text-info">{{ today | date:'yyyy' }}</h6>
+        <h6 class="text-info">F L I C K T I O N A R Y</h6>
+        <h6 class="text-info">A dictionary for flicks</h6>
+      </div>
+      <span class="footer__filler"></span>
+      <ng-container *ngIf="isLoggedIn">
+        <span>
+          <button mat-button class="footer__button" routerLink="/movies" routerLinkActive="active-link">Movies</button>
+          <button mat-button class="footer__button" routerLink="/profile"
+            routerLinkActive="active-link">Profile</button>
+          <button mat-button class="footer__button" (click)="userLogout()">Logout</button>
+        </span>
+      </ng-container>
+    </mat-toolbar>
   </div>
-  <span class="footer__filler"></span>
-  <ng-container *ngIf="isLoggedIn">
-    <span>
-      <button mat-button routerLink="/movies" routerLinkActive="active-link">Movies</button>
-      <button mat-button routerLink="/profile" routerLinkActive="active-link">Profile</button>
-    </span>
-    <button mat-button (click)="userLogout()">Logout</button>
-  </ng-container>
-</mat-toolbar>
+</div>

@@ -1,8 +1,15 @@
-<div *ngIf="movie">
-  <h2>{{ movie.Title }}</h2>
-  <p>{{ movie.Description }}</p>
-  <!-- Add more fields as needed -->
+<div class="dialog-container" *ngIf="movie">
+  <h2 mat-dialog-title class="dialog-title">{{ movie.Title }}</h2>
+  <mat-dialog-content class="dialog-content">
+    <p>{{ movie.Description }}</p>
+  </mat-dialog-content>
+  <mat-dialog-actions class="dialog-actions">
+    <button mat-icon-button color="primary" [mat-dialog-close] matTooltip="Close dialog" aria-label="Close dialog"
+      class="dialog-actions__icon-button">
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-dialog-actions>
 </div>
-<div *ngIf="!movie">
+<div class="dialog-container" *ngIf="!movie">
   Loading...
 </div>

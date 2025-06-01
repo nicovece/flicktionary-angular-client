@@ -1,10 +1,18 @@
-<div *ngIf="director">
-  <h2>{{ director.Name }}</h2>
-  <p>{{ director.Description }}</p>
-  <p>{{ director.Birth }}</p>
-  <p>{{ director.Death }}</p>
-  <!-- Add more fields as needed -->
+<div class="dialog-container" *ngIf="director">
+  <h2 mat-dialog-title class="dialog-title">{{ director.Name }}</h2>
+  <mat-dialog-content class="dialog-content">
+    <p>{{ director.Description }}</p>
+    <p>{{ director.Birth | date:'longDate' }}</p>
+    <p *ngIf="director.Death">{{ director.Death }}</p>
+    <p>{{ director.Bio }}</p>
+  </mat-dialog-content>
+  <mat-dialog-actions class="dialog-actions">
+    <button mat-icon-button color="primary" [mat-dialog-close] matTooltip="Close dialog" aria-label="Close dialog"
+      class="dialog-actions__icon-button">
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-dialog-actions>
 </div>
-<div *ngIf="!director">
+<div class="dialog-container" *ngIf="!director">
   Loading...
 </div>
