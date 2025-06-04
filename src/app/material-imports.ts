@@ -1,3 +1,6 @@
+/**
+ * Exports a list of commonly used Angular Material modules for easy import into other modules.
+ */
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';

@@ -30,21 +30,50 @@ import { MovieCardComponent } from '../movie-card/movie-card.component';
   templateUrl: './user-profile.component.html',
   styleUrl: './user-profile.component.scss',
 })
+/**
+ * Component for displaying and managing the user's profile.
+ *
+ * Shows user information, allows editing the profile, and account deletion.
+ */
 export class UserProfileComponent {
+  /**
+   * The user data object fetched from the API.
+   */
   user: any = {};
+  /**
+   * Indicates whether the profile data is currently loading.
+   */
   loading = true;
+  /**
+   * The user's birthday formatted as a locale date string.
+   */
   formattedBirthday: string = '';
 
+  /**
+   * Creates an instance of UserProfileComponent.
+   *
+   * @param fetchApiData - Service for fetching and updating user data via the API.
+   * @param router - Angular Router for navigation.
+   * @param dialog - Angular Material Dialog service for opening dialogs.
+   */
   constructor(
     public fetchApiData: FetchApiDataService,
     public router: Router,
     public dialog: MatDialog
   ) {}
 
+  /**
+   * Angular lifecycle hook that is called after data-bound properties are initialized.
+   *
+   * Fetches the user data from the API.
+   */
   ngOnInit(): void {
     this.getUser();
   }
 
+  /**
+   * Fetches the current user's data from the API and updates the component state.
+   */
   getUser(): void {
     const username = localStorage.getItem('user');
     if (!username) {
@@ -68,23 +97,11 @@ export class UserProfileComponent {
     });
   }
 
-  // getUserData(): void {
-  //   const localUser: string | null = localStorage.getItem('user');
-
-  //   if (!localUser) {
-  //     this.router.navigate(['/welcome']);
-  //     return;
-  //   }
-  //   const parsedUser: any = JSON.parse(localUser);
-  //   this.fetchApiData.getUser(parsedUser.Username).subscribe((result) => {
-  //     this.user = result;
-  //     delete this.user.Password;
-  //     this.birthday = new Date(this.user.Birthday).toLocaleDateString();
-  //     localStorage.setItem('user', JSON.stringify(result));
-  //     this.getFavoriteMovies();
-  //   });
-  // }
-
+  /**
+   * Opens a dialog for editing the user's profile information.
+   *
+   * After the dialog is closed, refreshes the user data if changes were made.
+   */
   openEditProfileDialog(): void {
     const dialogRef = this.dialog.open(UserEditProfileComponent, {
       width: '280px',
@@ -98,6 +115,11 @@ export class UserProfileComponent {
     });
   }
 
+  /**
+   * Deletes the user's account after confirmation.
+   *
+   * Removes user data from localStorage and redirects to the welcome page on success.
+   */
   deleteAccount(): void {
     const username = localStorage.getItem('user');
     if (!username) {

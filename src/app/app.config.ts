@@ -1,3 +1,6 @@
+/**
+ * Main application configuration for Angular providers and modules.
+ */
 import {
   ApplicationConfig,
   provideZoneChangeDetection,
