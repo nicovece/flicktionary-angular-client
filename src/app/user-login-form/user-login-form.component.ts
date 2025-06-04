@@ -23,9 +23,25 @@ import { MatIconModule } from '@angular/material/icon';
     MatDialogModule,
   ],
 })
+/**
+ * Dialog component for user login.
+ *
+ * Allows users to enter their credentials and authenticate with the backend API.
+ */
 export class UserLoginFormComponent implements OnInit {
+  /**
+   * The user login data entered in the form.
+   */
   @Input() userData = { Username: '', Password: '' };
 
+  /**
+   * Creates an instance of UserLoginFormComponent.
+   *
+   * @param fetchApiData - Service for user authentication via the API.
+   * @param dialogRef - Reference to the dialog opened for login.
+   * @param snackBar - Angular Material SnackBar service for showing notifications.
+   * @param router - Angular Router for navigation.
+   */
   constructor(
     public fetchApiData: FetchApiDataService,
     public dialogRef: MatDialogRef<UserLoginFormComponent>,
@@ -33,9 +49,17 @@ export class UserLoginFormComponent implements OnInit {
     public router: Router
   ) {}
 
+  /**
+   * Angular lifecycle hook that is called after data-bound properties are initialized.
+   */
   ngOnInit(): void {}
 
-  // This is the function responsible for sending the form inputs to the backend
+  /**
+   * Authenticates the user using the provided credentials.
+   *
+   * On success, stores the user and token in localStorage, closes the dialog, and shows a notification.
+   * On failure, shows an error notification.
+   */
   loginUser(): void {
     this.fetchApiData.userLogin(this.userData).subscribe(
       (result) => {

@@ -1,0 +1,22 @@
+{
+  "entryPoints": ["src/app"],
+  "entryPointStrategy": "expand",
+  "out": "docs",
+  "exclude": [
+    "**/*.spec.ts",
+    "**/*.scss",
+    "**/*.html",
+    "**/.angular/**",
+    "**/node_modules/**"
+  ],
+  "excludePrivate": true,
+  "excludeProtected": false,
+  "excludeInternal": true,
+  "includeVersion": true,
+  "tsconfig": "tsconfig.app.json",
+  "plugin": [
+    "typedoc-plugin-missing-exports"
+  ],
+  "readme": "none",
+  "name": "Flicktionary Angular Client"
+} 

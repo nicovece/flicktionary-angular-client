@@ -27,18 +27,41 @@ import { MatIconModule } from '@angular/material/icon';
     MatDialogModule,
   ],
 })
+/**
+ * Dialog component for user registration.
+ *
+ * Allows users to enter their details and register a new account with the backend API.
+ */
 export class UserRegistrationFormComponent implements OnInit {
+  /**
+   * The user registration data entered in the form.
+   */
   @Input() userData = { Username: '', Password: '', Email: '', Birthday: '' };
 
+  /**
+   * Creates an instance of UserRegistrationFormComponent.
+   *
+   * @param fetchApiData - Service for user registration via the API.
+   * @param dialogRef - Reference to the dialog opened for registration.
+   * @param snackBar - Angular Material SnackBar service for showing notifications.
+   */
   constructor(
     public fetchApiData: FetchApiDataService,
     public dialogRef: MatDialogRef<UserRegistrationFormComponent>,
     public snackBar: MatSnackBar
   ) {}
 
+  /**
+   * Angular lifecycle hook that is called after data-bound properties are initialized.
+   */
   ngOnInit(): void {}
 
-  // This is the function responsible for sending the form inputs to the backend
+  /**
+   * Registers a new user using the provided form data.
+   *
+   * On success, closes the dialog and shows a notification.
+   * On failure, shows an error notification.
+   */
   registerUser(): void {
     this.fetchApiData.userRegistration(this.userData).subscribe(
       (result) => {

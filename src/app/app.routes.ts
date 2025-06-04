@@ -1,3 +1,6 @@
+/**
+ * Main client-side route definitions for the Angular application.
+ */
 import { Routes } from '@angular/router';
 import { WelcomePageComponent } from './welcome-page/welcome-page.component';
 import { MovieCardComponent } from './movie-card/movie-card.component';

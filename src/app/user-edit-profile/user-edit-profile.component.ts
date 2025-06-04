@@ -29,8 +29,26 @@ import { Router } from '@angular/router';
   templateUrl: './user-edit-profile.component.html',
   styleUrl: './user-edit-profile.component.scss',
 })
+/**
+ * Dialog component for editing the user's profile information.
+ *
+ * Allows the user to update their profile details and password.
+ */
 export class UserEditProfileComponent {
+  /**
+   * The form data for editing the user profile.
+   */
   editUserData: any = {};
+
+  /**
+   * Creates an instance of UserEditProfileComponent.
+   *
+   * @param fetchApiData - Service for updating user data via the API.
+   * @param dialogRef - Reference to the dialog opened for editing the profile.
+   * @param data - Injected dialog data containing the current user object.
+   * @param snackBar - Angular Material SnackBar service for showing notifications.
+   * @param router - Angular Router for navigation.
+   */
   constructor(
     public fetchApiData: FetchApiDataService,
     public dialogRef: MatDialogRef<UserEditProfileComponent>,
@@ -39,6 +57,11 @@ export class UserEditProfileComponent {
     public router: Router
   ) {}
 
+  /**
+   * Angular lifecycle hook that is called after data-bound properties are initialized.
+   *
+   * Initializes the form data with the current user information.
+   */
   ngOnInit(): void {
     this.editUserData = { ...this.data.user };
     if (this.editUserData.Birthday) {
@@ -47,6 +70,11 @@ export class UserEditProfileComponent {
     this.editUserData.Password = ''; // Always start empty
   }
 
+  /**
+   * Updates the user's profile information using the API.
+   *
+   * If the password is changed, logs the user out and redirects to the welcome page.
+   */
   updateUser(): void {
     // Create a copy to avoid mutating the form data
     const updatePayload = { ...this.editUserData };

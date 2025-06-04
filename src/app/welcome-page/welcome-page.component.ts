@@ -14,11 +14,28 @@ import { MatIconModule } from '@angular/material/icon';
   styleUrls: ['./welcome-page.component.scss'],
   imports: [MatButtonModule, MatIconModule],
 })
+/**
+ * The landing page component for the application.
+ *
+ * Provides entry points for user registration, login, and browsing movies.
+ */
 export class WelcomePageComponent {
+  /**
+   * The title of the application, displayed on the welcome page.
+   */
   title = 'flicktionary-angular-client';
 
+  /**
+   * Creates an instance of WelcomePageComponent.
+   *
+   * @param dialog - Angular Material Dialog service for opening dialogs.
+   * @param router - Angular Router for navigation.
+   */
   constructor(public dialog: MatDialog, private router: Router) {}
-  // This is the function that will open the dialog when the signup button is clicked
+
+  /**
+   * Opens the user registration dialog when the signup button is clicked.
+   */
   openUserRegistrationDialog(): void {
     this.dialog.open(UserRegistrationFormComponent, {
       // Assigning the dialog a width
@@ -26,6 +43,9 @@ export class WelcomePageComponent {
     });
   }
 
+  /**
+   * Opens the user login dialog and navigates to the movies page on successful login.
+   */
   openUserLoginDialog(): void {
     const dialogRef = this.dialog.open(UserLoginFormComponent, {
       width: '280px',
@@ -39,6 +59,9 @@ export class WelcomePageComponent {
     });
   }
 
+  /**
+   * Opens a dialog displaying the list of movies.
+   */
   openMoviesDialog(): void {
     this.dialog.open(MovieCardComponent, {
       width: '500px',
