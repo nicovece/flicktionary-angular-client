@@ -10,18 +10,17 @@ Flicktionary is a modern, responsive Angular web application that serves as a "d
 - **Profile Management:** Edit your user profile or delete your account.
 - **Responsive UI:** Built with Angular Material for a modern, mobile-friendly experience.
 - **Dialogs:** Quick access to movie, genre, and director details via modal dialogs.
-- **Server-Side Rendering (SSR):** Optimized for SEO and fast initial loads.
 - **Documentation:** Auto-generated with TypeDoc, available in the `/docs` directory.
 
 ## Tech Stack
 
 - **Framework:** Angular 19+
 - **UI Library:** Angular Material
-- **SSR:** Angular Universal
 - **HTTP:** Angular HttpClient
 - **Testing:** Jasmine & Karma
 - **Documentation:** TypeDoc
-- **Deployment:** Angular CLI, GitHub Pages (for docs), Render (for API)
+- **CI/CD:** GitHub Actions
+- **Deployment:** GitHub Pages (client), Render (API)
 
 ## Getting Started
 
@@ -54,17 +53,6 @@ ng serve
 
 - Navigate to [http://localhost:4200/](http://localhost:4200/).
 - The app will reload automatically if you change any source files.
-
-#### Server-Side Rendering (SSR)
-
-To build and run the SSR version:
-
-```bash
-ng build
-npm run serve:ssr:flicktionary-angular-client
-```
-
-- The SSR server will run on [http://localhost:4000/](http://localhost:4000/) by default.
 
 ### API Configuration
 
@@ -108,9 +96,13 @@ ng test
 
 ## Deployment
 
-- **Production build:** `ng build --configuration production`
-- **Docs to GitHub Pages:** `npx angular-cli-ghpages --dir=docs`
-- **SSR server:** See SSR instructions above.
+The app is automatically built and deployed to GitHub Pages via a GitHub Actions workflow on every push to `main`. See [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml) for details.
+
+To build locally for production:
+
+```bash
+ng build --base-href /flicktionary-angular-client/
+```
 
 ## Contributing
 
