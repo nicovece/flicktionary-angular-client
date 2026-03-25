@@ -12,6 +12,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { UserRegistration } from '../models/models';
 
 @Component({
   selector: 'app-user-registration-form',
@@ -36,7 +37,7 @@ export class UserRegistrationFormComponent implements OnInit {
   /**
    * The user registration data entered in the form.
    */
-  @Input() userData = { Username: '', Password: '', Email: '', Birthday: '' };
+  @Input() userData: UserRegistration = { Username: '', Password: '', Email: '' };
 
   /**
    * Creates an instance of UserRegistrationFormComponent.

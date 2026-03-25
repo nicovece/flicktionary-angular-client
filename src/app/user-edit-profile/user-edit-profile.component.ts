@@ -13,6 +13,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { FetchApiDataService } from '../fetch-api-data.service';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { User, UserUpdate } from '../models/models';
 @Component({
   selector: 'app-user-edit-profile',
   standalone: true,
@@ -38,7 +39,7 @@ export class UserEditProfileComponent {
   /**
    * The form data for editing the user profile.
    */
-  editUserData: any = {};
+  editUserData: UserUpdate = {};
 
   /**
    * Creates an instance of UserEditProfileComponent.
@@ -52,7 +53,7 @@ export class UserEditProfileComponent {
   constructor(
     public fetchApiData: FetchApiDataService,
     public dialogRef: MatDialogRef<UserEditProfileComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { user: any },
+    @Inject(MAT_DIALOG_DATA) public data: { user: User },
     public snackBar: MatSnackBar,
     public router: Router
   ) {}

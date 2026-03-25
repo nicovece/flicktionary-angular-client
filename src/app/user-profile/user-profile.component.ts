@@ -12,6 +12,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Router } from '@angular/router';
 import { UserEditProfileComponent } from '../user-edit-profile/user-edit-profile.component';
 import { MovieCardComponent } from '../movie-card/movie-card.component';
+import { User } from '../models/models';
 
 @Component({
   selector: 'app-user-profile',
@@ -39,7 +40,7 @@ export class UserProfileComponent {
   /**
    * The user data object fetched from the API.
    */
-  user: any = {};
+  user: User = {} as User;
   /**
    * Indicates whether the profile data is currently loading.
    */
@@ -82,7 +83,7 @@ export class UserProfileComponent {
     }
     this.loading = true;
     this.fetchApiData.getUser(username).subscribe({
-      next: (res: any) => {
+      next: (res: User) => {
         this.user = res;
         this.formattedBirthday = new Date(
           this.user.Birthday
@@ -138,7 +139,7 @@ export class UserProfileComponent {
           // localStorage.removeItem('otherKey');
 
           // Optionally reset in-memory user state
-          this.user = {};
+          this.user = {} as User;
           this.formattedBirthday = '';
 
           // Redirect to welcome view

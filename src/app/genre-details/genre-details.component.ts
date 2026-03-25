@@ -4,6 +4,7 @@ import { FetchApiDataService } from '../fetch-api-data.service';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { Genre } from '../models/models';
 
 @Component({
   selector: 'app-genre-details',
@@ -20,7 +21,7 @@ export class GenreDetailsComponent implements OnInit {
   /**
    * The genre data fetched from the API.
    */
-  genre: any;
+  genre!: Genre;
 
   /**
    * Creates an instance of GenreDetailsComponent.

@@ -4,6 +4,7 @@ import { FetchApiDataService } from '../fetch-api-data.service';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { Movie } from '../models/models';
 
 @Component({
   selector: 'app-movie-details',
@@ -20,7 +21,7 @@ export class MovieDetailsComponent implements OnInit {
   /**
    * The movie data fetched from the API.
    */
-  movie: any;
+  movie!: Movie;
 
   /**
    * Creates an instance of MovieDetailsComponent.

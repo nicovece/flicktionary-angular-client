@@ -4,6 +4,7 @@ import { FetchApiDataService } from '../fetch-api-data.service';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { Director } from '../models/models';
 
 @Component({
   selector: 'app-director-details',
@@ -20,7 +21,7 @@ export class DirectorDetailsComponent implements OnInit {
   /**
    * The director data fetched from the API.
    */
-  director: any;
+  director!: Director;
 
   /**
    * Creates an instance of DirectorDetailsComponent.

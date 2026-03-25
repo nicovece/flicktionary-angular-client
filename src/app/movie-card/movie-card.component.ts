@@ -16,6 +16,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MovieDetailsComponent } from '../movie-details/movie-details.component';
 import { GenreDetailsComponent } from '../genre-details/genre-details.component';
 import { DirectorDetailsComponent } from '../director-details/director-details.component';
+import { Movie, Genre, Director, User } from '../models/models';
 
 @Component({
   selector: 'app-movie-card',
@@ -39,11 +40,11 @@ export class MovieCardComponent implements OnInit, OnChanges {
   /**
    * The list of movies currently displayed (filtered or all).
    */
-  movies: any[] = [];
+  movies: Movie[] = [];
   /**
    * The complete list of all movies fetched from the API.
    */
-  allMovies: any[] = [];
+  allMovies: Movie[] = [];
   /**
    * The list of favorite movie IDs for the current user.
    */
@@ -98,7 +99,7 @@ export class MovieCardComponent implements OnInit, OnChanges {
    * @returns The filtered list of movies.
    */
   getMovies(): void {
-    this.fetchMovies.getAllMovies().subscribe((resp: any) => {
+    this.fetchMovies.getAllMovies().subscribe((resp: Movie[]) => {
       this.allMovies = resp;
       this.filterMovies();
       return this.movies;
@@ -114,7 +115,7 @@ export class MovieCardComponent implements OnInit, OnChanges {
       this.favoriteMovieIds &&
       this.favoriteMovieIds.length > 0
     ) {
-      this.movies = this.allMovies.filter((movie: any) =>
+      this.movies = this.allMovies.filter((movie: Movie) =>
         this.favoriteMovieIds.includes(movie._id)
       );
     } else {
@@ -127,7 +128,7 @@ export class MovieCardComponent implements OnInit, OnChanges {
    *
    * @param movie - The movie object to display details for.
    */
-  openMovieDetailsDialog(movie: any): void {
+  openMovieDetailsDialog(movie: Movie): void {
     this.dialog.open(MovieDetailsComponent, {
       width: '500px',
       data: { movieTitle: movie.Title },
@@ -139,7 +140,7 @@ export class MovieCardComponent implements OnInit, OnChanges {
    *
    * @param genre - The genre object to display details for.
    */
-  openGenreDetailsDialog(genre: any): void {
+  openGenreDetailsDialog(genre: Genre): void {
     this.dialog.open(GenreDetailsComponent, {
       width: '500px',
       data: { genreName: genre.Name },
@@ -151,7 +152,7 @@ export class MovieCardComponent implements OnInit, OnChanges {
    *
    * @param director - The director object to display details for.
    */
-  openDirectorDetailsDialog(director: any): void {
+  openDirectorDetailsDialog(director: Director): void {
     this.dialog.open(DirectorDetailsComponent, {
       width: '500px',
       data: { directorName: director.Name },
@@ -164,7 +165,7 @@ export class MovieCardComponent implements OnInit, OnChanges {
   getUserFavorites(): void {
     const username = localStorage.getItem('user');
     if (username) {
-      this.fetchMovies.getUser(username).subscribe((user: any) => {
+      this.fetchMovies.getUser(username).subscribe((user: User) => {
         this.favoriteMovieIds = user.FavoriteMovies || [];
         this.filterMovies();
       });
@@ -176,7 +177,7 @@ export class MovieCardComponent implements OnInit, OnChanges {
    *
    * @param movie - The movie object to add or remove from favorites.
    */
-  toggleFavorite(movie: any): void {
+  toggleFavorite(movie: Movie): void {
     const isFavorite = this.favoriteMovieIds.includes(movie._id);
     if (isFavorite) {
       this.fetchMovies.deleteFavoriteMovie(movie._id).subscribe(() => {

@@ -9,6 +9,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { Router } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
+import { UserCredentials, LoginResponse } from '../models/models';
 @Component({
   selector: 'app-user-login-form',
   templateUrl: './user-login-form.component.html',
@@ -32,7 +33,7 @@ export class UserLoginFormComponent implements OnInit {
   /**
    * The user login data entered in the form.
    */
-  @Input() userData = { Username: '', Password: '' };
+  @Input() userData: UserCredentials = { Username: '', Password: '' };
 
   /**
    * Creates an instance of UserLoginFormComponent.
