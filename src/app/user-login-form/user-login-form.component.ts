@@ -67,7 +67,6 @@ export class UserLoginFormComponent implements OnInit {
         localStorage.setItem('token', result.token);
         // Logic for a successful user registration goes here! (To be implemented)
         this.dialogRef.close('success');
-        console.log(result);
         this.snackBar.open(
           result.message || 'User logged in successfully!',
           'OK',
@@ -77,7 +76,6 @@ export class UserLoginFormComponent implements OnInit {
         );
       },
       (result) => {
-        console.log(result);
         this.snackBar.open(result, 'OK', {
           duration: 2000,
         });

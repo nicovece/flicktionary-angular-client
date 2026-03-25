@@ -87,7 +87,6 @@ export class UserProfileComponent {
         this.formattedBirthday = new Date(
           this.user.Birthday
         ).toLocaleDateString();
-        console.log(this.user);
         this.loading = false;
       },
       error: (err) => {
@@ -147,7 +146,7 @@ export class UserProfileComponent {
         },
         error: (err) => {
           // Optionally show an error message
-          console.error('Failed to delete account', err);
+          // Error handled silently - user stays on the page
         },
       });
     }

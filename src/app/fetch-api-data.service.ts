@@ -39,20 +39,11 @@ export class FetchApiDataService {
    * @returns An observable error to be handled by the subscriber.
    */
   private handleError(error: HttpErrorResponse): any {
-    // Check if ErrorEvent is defined and error.error is an instance of it
-    if (
-      typeof ErrorEvent !== 'undefined' &&
-      error.error instanceof ErrorEvent
-    ) {
-      // Client-side or network error
-      console.error('Some error occurred:', error.error.message);
-    } else {
-      // Backend/server error
-      console.error(
-        `Error Status code ${error.status}, ` + `Error body is: ${error.error}`
-      );
-    }
-    return throwError('Something bad happened; please try again later.');
+    const message =
+      typeof ErrorEvent !== 'undefined' && error.error instanceof ErrorEvent
+        ? error.error.message
+        : error.error?.message || 'Something bad happened; please try again later.';
+    return throwError(() => message);
   }
 
   /**
@@ -73,8 +64,6 @@ export class FetchApiDataService {
    * @returns An Observable containing the created user object.
    */
   public userRegistration(userDetails: any): Observable<any> {
-    console.log(userDetails);
-    console.log(apiUrl + 'users');
     return this.http
       .post(apiUrl + 'users', userDetails)
       .pipe(catchError(this.handleError));
@@ -87,7 +76,6 @@ export class FetchApiDataService {
    * @returns An Observable containing the user object and authentication token.
    */
   public userLogin(userDetails: any): Observable<any> {
-    console.log(userDetails);
     return this.http
       .post(apiUrl + 'login', userDetails)
       .pipe(catchError(this.handleError));
