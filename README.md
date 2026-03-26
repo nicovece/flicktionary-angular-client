@@ -12,14 +12,53 @@ Flicktionary is a modern, responsive Angular web application that serves as a "d
 - **Dialogs:** Quick access to movie, genre, and director details via modal dialogs.
 - **Documentation:** Auto-generated with TypeDoc, available in the `/docs` directory.
 
+## Architecture
+
+### Key Decisions
+
+- **Standalone Components** — No NgModules. Each component declares its own imports, making dependencies explicit and enabling tree-shaking and lazy loading at the component level.
+- **Dialog-Based Navigation** — Movie, genre, and director details open in Material dialogs rather than separate routes. This keeps the user in context (the movie grid stays visible behind the dialog) and reduces route complexity.
+- **Functional Interceptor** — Auth tokens are attached to outgoing requests via a functional `HttpInterceptorFn` (`auth.interceptor.ts`), keeping the API service free of authentication concerns.
+- **Server-Side Rendering** — Angular SSR is configured for pre-rendering, improving initial load performance and SEO.
+- **Lazy-Loaded Routes** — Authenticated routes (`/movies`, `/profile`) use `loadComponent` with dynamic imports, splitting them into separate chunks to reduce the initial bundle size.
+
+### Project Structure
+
+```
+src/app/
+├── models/              # TypeScript interfaces for API data
+├── Components
+│   ├── welcome-page/    # Public landing page (login/register dialogs)
+│   ├── movie-card/      # Movie grid with favorites toggle
+│   ├── movie-details/   # Dialog: movie synopsis
+│   ├── genre-details/   # Dialog: genre info
+│   ├── director-details/# Dialog: director bio
+│   ├── user-profile/    # Profile view with favorites
+│   ├── user-edit-profile/ # Dialog: edit profile form
+│   ├── user-login-form/ # Dialog: login form
+│   ├── user-registration-form/ # Dialog: signup form
+│   ├── app-navbar/      # Top navigation bar
+│   └── footer/          # Footer with nav links
+├── auth.guard.ts        # Route guard (checks localStorage for token)
+├── auth.interceptor.ts  # Attaches Bearer token to HTTP requests
+├── fetch-api-data.service.ts # Typed API service (all endpoints)
+└── app.routes.ts        # Route definitions with lazy loading
+```
+
+### Data Flow
+
+1. User logs in → `FetchApiDataService.userLogin()` → token stored in localStorage
+2. Subsequent requests pass through `authInterceptor` → Bearer token attached automatically
+3. `AuthGuard` checks for token before activating protected routes
+4. Components subscribe to service methods → data rendered in templates with loading/error states
+
 ## Tech Stack
 
 - **Framework:** Angular 19+
 - **UI Library:** Angular Material
-- **HTTP:** Angular HttpClient
-- **Testing:** Jasmine & Karma
+- **HTTP:** Angular HttpClient with functional interceptor
 - **Documentation:** TypeDoc
-- **CI/CD:** GitHub Actions
+- **CI/CD:** GitHub Actions (type check + build + deploy)
 - **Deployment:** GitHub Pages (client), Render (API)
 
 ## Getting Started
@@ -56,8 +95,7 @@ ng serve
 
 ### API Configuration
 
-- The client is pre-configured to use the Flicktionary API at `https://flicktionary.onrender.com/`.
-- If you need to change the API endpoint, update the `apiUrl` in `src/app/fetch-api-data.service.ts`.
+The API URL is configured in `src/environments/environment.ts` (development) and `src/environments/environment.prod.ts` (production). Both default to `https://flicktionary.onrender.com/`.
 
 ## Usage
 
@@ -74,17 +112,6 @@ ng serve
 - **Navbar:** Access movies, your profile, or log out.
 - **Welcome Page:** Entry point for new users to sign up or log in.
 
-## Testing
-
-Run unit tests with:
-
-```bash
-ng test
-```
-
-- Uses Jasmine and Karma.
-- Test files are located alongside their respective components.
-
 ## Documentation
 
 - Auto-generated with [TypeDoc](https://typedoc.org/).
@@ -96,7 +123,7 @@ ng test
 
 ## Deployment
 
-The app is automatically built and deployed to GitHub Pages via a GitHub Actions workflow on every push to `main`. See [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml) for details.
+The app is automatically built and deployed to GitHub Pages via a GitHub Actions workflow on every push to `main`. The pipeline runs a TypeScript type check before building. See [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml) for details.
 
 To build locally for production:
 
