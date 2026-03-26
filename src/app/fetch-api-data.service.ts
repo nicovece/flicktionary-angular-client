@@ -18,9 +18,9 @@ import {
   UserRegistration,
   UserUpdate,
 } from './models/models';
+import { environment } from '../environments/environment';
 
-//Declaring the api url that will provide data for the client app
-const apiUrl = 'https://flicktionary.onrender.com/';
+const apiUrl = environment.apiUrl;
 @Injectable({
   providedIn: 'root',
 })
