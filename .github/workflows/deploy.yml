@@ -21,7 +21,11 @@ jobs:
 
       - run: npm ci
 
-      - run: npx ng build --base-href /flicktionary-angular-client/
+      - name: Type check
+        run: npx tsc --noEmit
+
+      - name: Build
+        run: npx ng build --base-href /flicktionary-angular-client/
 
       - run: cp dist/flicktionary-angular-client/browser/index.html dist/flicktionary-angular-client/browser/404.html
 
