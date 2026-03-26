@@ -13,7 +13,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Router } from '@angular/router';
 import { UserEditProfileComponent } from '../user-edit-profile/user-edit-profile.component';
 import { MovieCardComponent } from '../movie-card/movie-card.component';
-import { User } from '../models/models';
+import { User, STORAGE_KEYS } from '../models/models';
 
 @Component({
   selector: 'app-user-profile',
@@ -79,7 +79,7 @@ export class UserProfileComponent {
    * Fetches the current user's data from the API and updates the component state.
    */
   getUser(): void {
-    const username = localStorage.getItem('user');
+    const username = localStorage.getItem(STORAGE_KEYS.USER);
     if (!username) {
       this.router.navigate(['/welcome']);
       return;
@@ -128,7 +128,7 @@ export class UserProfileComponent {
    * Removes user data from localStorage and redirects to the welcome page on success.
    */
   deleteAccount(): void {
-    const username = localStorage.getItem('user');
+    const username = localStorage.getItem(STORAGE_KEYS.USER);
     if (!username) {
       return;
     }
@@ -142,8 +142,8 @@ export class UserProfileComponent {
         .subscribe({
         next: () => {
           // Clean up all user-related data from localStorage
-          localStorage.removeItem('user');
-          localStorage.removeItem('token');
+          localStorage.removeItem(STORAGE_KEYS.USER);
+          localStorage.removeItem(STORAGE_KEYS.TOKEN);
           // If you store other keys, remove them here as well
           // localStorage.removeItem('otherKey');
 

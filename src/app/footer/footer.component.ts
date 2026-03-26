@@ -6,6 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { Router, RouterModule } from '@angular/router';
 import { isPlatformBrowser } from '@angular/common';
+import { STORAGE_KEYS } from '../models/models';
 
 @Component({
   selector: 'app-footer',
@@ -52,7 +53,7 @@ export class FooterComponent {
    */
   get isLoggedIn(): boolean {
     if (isPlatformBrowser(this.platformId)) {
-      return !!localStorage.getItem('user') && !!localStorage.getItem('token');
+      return !!localStorage.getItem(STORAGE_KEYS.USER) && !!localStorage.getItem(STORAGE_KEYS.TOKEN);
     }
     return false;
   }

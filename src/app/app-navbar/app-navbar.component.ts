@@ -7,6 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { Router, RouterModule } from '@angular/router';
 import { isPlatformBrowser } from '@angular/common';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { STORAGE_KEYS } from '../models/models';
 
 /**
  * The main navigation bar component for the application.
@@ -50,7 +51,7 @@ export class AppNavbarComponent {
    */
   get isLoggedIn(): boolean {
     if (isPlatformBrowser(this.platformId)) {
-      return !!localStorage.getItem('user') && !!localStorage.getItem('token');
+      return !!localStorage.getItem(STORAGE_KEYS.USER) && !!localStorage.getItem(STORAGE_KEYS.TOKEN);
     }
     return false;
   }

@@ -13,7 +13,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { FetchApiDataService } from '../fetch-api-data.service';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { User, UserUpdate } from '../models/models';
+import { User, UserUpdate, STORAGE_KEYS } from '../models/models';
 @Component({
   selector: 'app-user-edit-profile',
   standalone: true,
@@ -91,8 +91,8 @@ export class UserEditProfileComponent {
         });
         this.dialogRef.close(true);
         if (passwordChanged) {
-          localStorage.removeItem('user');
-          localStorage.removeItem('token');
+          localStorage.removeItem(STORAGE_KEYS.USER);
+          localStorage.removeItem(STORAGE_KEYS.TOKEN);
           this.router.navigate(['/welcome']);
         }
       },

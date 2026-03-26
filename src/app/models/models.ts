@@ -1,3 +1,8 @@
+export const STORAGE_KEYS = {
+  USER: 'user',
+  TOKEN: 'token',
+} as const;
+
 export interface Genre {
   Name: string;
   Description: string;

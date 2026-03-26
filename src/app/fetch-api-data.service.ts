@@ -12,6 +12,7 @@ import {
   UserCredentials,
   UserRegistration,
   UserUpdate,
+  STORAGE_KEYS,
 } from './models/models';
 import { environment } from '../environments/environment';
 
@@ -148,7 +149,7 @@ export class FetchApiDataService {
    * @returns An Observable containing the updated user object.
    */
   public addFavoriteMovie(movieId: string): Observable<User> {
-    const username = localStorage.getItem('user') || '';
+    const username = localStorage.getItem(STORAGE_KEYS.USER) || '';
     return this.http
       .post<User>(apiUrl + 'users/' + username + '/movies/' + movieId, {})
       .pipe(map(this.extractResponseData), catchError(this.handleError));
@@ -161,7 +162,7 @@ export class FetchApiDataService {
    * @returns An Observable containing the updated user object.
    */
   public deleteFavoriteMovie(movieId: string): Observable<User> {
-    const username = localStorage.getItem('user') || '';
+    const username = localStorage.getItem(STORAGE_KEYS.USER) || '';
     return this.http
       .delete<User>(apiUrl + 'users/' + username + '/movies/' + movieId)
       .pipe(map(this.extractResponseData), catchError(this.handleError));
@@ -174,7 +175,7 @@ export class FetchApiDataService {
    * @returns An Observable containing the updated user object.
    */
   public editUser(userDetails: UserUpdate): Observable<User> {
-    const username = localStorage.getItem('user') || '';
+    const username = localStorage.getItem(STORAGE_KEYS.USER) || '';
     return this.http
       .put<User>(apiUrl + 'users/' + username, userDetails)
       .pipe(map(this.extractResponseData), catchError(this.handleError));

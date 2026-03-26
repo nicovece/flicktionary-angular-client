@@ -19,7 +19,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MovieDetailsComponent } from '../movie-details/movie-details.component';
 import { GenreDetailsComponent } from '../genre-details/genre-details.component';
 import { DirectorDetailsComponent } from '../director-details/director-details.component';
-import { Movie, Genre, Director, User } from '../models/models';
+import { Movie, Genre, Director, User, STORAGE_KEYS } from '../models/models';
 
 @Component({
   selector: 'app-movie-card',
@@ -169,7 +169,7 @@ export class MovieCardComponent implements OnInit, OnChanges {
    * Fetches the current user's favorite movies from the API and updates the favoriteMovieIds property.
    */
   getUserFavorites(): void {
-    const username = localStorage.getItem('user');
+    const username = localStorage.getItem(STORAGE_KEYS.USER);
     if (username) {
       this.fetchMovies.getUser(username)
         .pipe(takeUntilDestroyed(this.destroyRef))

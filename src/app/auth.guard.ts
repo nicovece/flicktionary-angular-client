@@ -2,6 +2,7 @@ import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
 import { CanActivate, Router, UrlTree } from '@angular/router';
 import { isPlatformBrowser } from '@angular/common';
 import { Observable } from 'rxjs';
+import { STORAGE_KEYS } from './models/models';
 
 @Injectable({ providedIn: 'root' })
 /**
@@ -35,8 +36,8 @@ export class AuthGuard implements CanActivate {
     | Observable<boolean | UrlTree>
     | Promise<boolean | UrlTree> {
     if (isPlatformBrowser(this.platformId)) {
-      const user = localStorage.getItem('user');
-      const token = localStorage.getItem('token');
+      const user = localStorage.getItem(STORAGE_KEYS.USER);
+      const token = localStorage.getItem(STORAGE_KEYS.TOKEN);
       if (user && token) {
         return true;
       }

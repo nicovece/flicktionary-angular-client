@@ -9,7 +9,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { Router } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
-import { UserCredentials, LoginResponse } from '../models/models';
+import { UserCredentials, LoginResponse, STORAGE_KEYS } from '../models/models';
 @Component({
   selector: 'app-user-login-form',
   templateUrl: './user-login-form.component.html',
@@ -64,8 +64,8 @@ export class UserLoginFormComponent implements OnInit {
   loginUser(): void {
     this.fetchApiData.userLogin(this.userData).subscribe(
       (result) => {
-        localStorage.setItem('user', result.user.Username);
-        localStorage.setItem('token', result.token);
+        localStorage.setItem(STORAGE_KEYS.USER, result.user.Username);
+        localStorage.setItem(STORAGE_KEYS.TOKEN, result.token);
         // Logic for a successful user registration goes here! (To be implemented)
         this.dialogRef.close('success');
         this.snackBar.open(

@@ -1,6 +1,7 @@
 import { HttpInterceptorFn } from '@angular/common/http';
 import { isPlatformBrowser } from '@angular/common';
 import { PLATFORM_ID, inject } from '@angular/core';
+import { STORAGE_KEYS } from './models/models';
 
 /**
  * Functional HTTP interceptor that attaches a Bearer token to outgoing requests.
@@ -13,7 +14,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   let token = '';
 
   if (isPlatformBrowser(platformId)) {
-    token = localStorage.getItem('token') || '';
+    token = localStorage.getItem(STORAGE_KEYS.TOKEN) || '';
   }
 
   if (token) {
