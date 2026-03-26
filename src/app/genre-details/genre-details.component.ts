@@ -5,11 +5,12 @@ import { FetchApiDataService } from '../fetch-api-data.service';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Genre } from '../models/models';
 
 @Component({
   selector: 'app-genre-details',
-  imports: [CommonModule, MatDialogModule, MatIconModule, MatButtonModule],
+  imports: [CommonModule, MatDialogModule, MatIconModule, MatButtonModule, MatProgressSpinnerModule],
   templateUrl: './genre-details.component.html',
   styleUrl: './genre-details.component.scss',
 })

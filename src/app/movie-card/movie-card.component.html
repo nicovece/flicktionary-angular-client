@@ -1,8 +1,7 @@
-<div class="container movie-card-container">
+<div class="container movie-card-container" *ngIf="!loading && !error">
   <mat-card *ngFor="let movie of movies;" class="movie-card" appearance="outlined">
     <mat-card-header>
       <mat-card-title>{{movie.Title}}</mat-card-title>
-      <!-- <mat-card-subtitle>Directed by: {{movie.Director.Name}}</mat-card-subtitle> -->
     </mat-card-header>
     <div class="movie-card__image-container">
       <img class="movie-card__image" src={{movie.ImagePath}} alt={{movie.Title}} />
@@ -19,9 +18,18 @@
       </button>
       <button mat-icon-button (click)="toggleFavorite(movie)">
         <mat-icon class="movie-card__favorite-icon">
-          {{ favoriteMovieIds?.includes(movie._id) ? 'favorite' : 'favorite_border' }}
+          {{ favoriteMovieIds.includes(movie._id) ? 'favorite' : 'favorite_border' }}
         </mat-icon>
       </button>
     </mat-card-actions>
   </mat-card>
+</div>
+
+<div class="container" *ngIf="loading" style="display: flex; justify-content: center; padding: 4rem 0;">
+  <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+</div>
+
+<div class="container" *ngIf="error" style="text-align: center; padding: 4rem 0;">
+  <p>{{ error }}</p>
+  <button mat-raised-button color="primary" (click)="getMovies()">Try Again</button>
 </div>

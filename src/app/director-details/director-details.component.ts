@@ -5,11 +5,12 @@ import { FetchApiDataService } from '../fetch-api-data.service';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Director } from '../models/models';
 
 @Component({
   selector: 'app-director-details',
-  imports: [CommonModule, MatDialogModule, MatIconModule, MatButtonModule],
+  imports: [CommonModule, MatDialogModule, MatIconModule, MatButtonModule, MatProgressSpinnerModule],
   templateUrl: './director-details.component.html',
   styleUrls: ['./director-details.component.scss'],
 })

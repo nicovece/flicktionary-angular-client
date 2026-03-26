@@ -13,6 +13,6 @@
     </button>
   </mat-dialog-actions>
 </div>
-<div class="dialog-container" *ngIf="!director">
-  Loading...
+<div class="dialog-container" *ngIf="!director" style="display: flex; justify-content: center; padding: 2rem;">
+  <mat-progress-spinner mode="indeterminate" diameter="40"></mat-progress-spinner>
 </div>

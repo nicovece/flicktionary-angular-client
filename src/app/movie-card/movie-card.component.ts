@@ -15,6 +15,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
 import { MatIconModule } from '@angular/material/icon';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDialog } from '@angular/material/dialog';
 import { MovieDetailsComponent } from '../movie-details/movie-details.component';
 import { GenreDetailsComponent } from '../genre-details/genre-details.component';
@@ -32,6 +33,7 @@ import { Movie, Genre, Director, User, STORAGE_KEYS } from '../models/models';
     MatDialogModule,
     MatSnackBarModule,
     MatIconModule,
+    MatProgressSpinnerModule,
   ],
 })
 /**
@@ -56,6 +58,8 @@ export class MovieCardComponent implements OnInit, OnChanges {
    * Whether to show only favorite movies in the list.
    */
   @Input() showOnlyFavorites = false;
+  loading = true;
+  error = '';
 
   /**
    * Creates an instance of MovieCardComponent.
@@ -104,11 +108,20 @@ export class MovieCardComponent implements OnInit, OnChanges {
    * @returns The filtered list of movies.
    */
   getMovies(): void {
+    this.loading = true;
+    this.error = '';
     this.fetchMovies.getAllMovies()
       .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((resp: Movie[]) => {
-        this.allMovies = resp;
-        this.filterMovies();
+      .subscribe({
+        next: (resp: Movie[]) => {
+          this.allMovies = resp;
+          this.filterMovies();
+          this.loading = false;
+        },
+        error: (err) => {
+          this.error = err || 'Failed to load movies.';
+          this.loading = false;
+        },
       });
   }
 

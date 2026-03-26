@@ -5,11 +5,12 @@ import { FetchApiDataService } from '../fetch-api-data.service';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Movie } from '../models/models';
 
 @Component({
   selector: 'app-movie-details',
-  imports: [CommonModule, MatDialogModule, MatIconModule, MatButtonModule],
+  imports: [CommonModule, MatDialogModule, MatIconModule, MatButtonModule, MatProgressSpinnerModule],
   templateUrl: './movie-details.component.html',
   styleUrl: './movie-details.component.scss',
 })
