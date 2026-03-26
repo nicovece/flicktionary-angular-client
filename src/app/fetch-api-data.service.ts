@@ -1,12 +1,7 @@
-import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { catchError, map } from 'rxjs/operators';
-import {
-  HttpClient,
-  HttpHeaders,
-  HttpErrorResponse,
-} from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { isPlatformBrowser } from '@angular/common';
 import {
   Movie,
   User,
@@ -21,6 +16,7 @@ import {
 import { environment } from '../environments/environment';
 
 const apiUrl = environment.apiUrl;
+
 @Injectable({
   providedIn: 'root',
 })
@@ -28,23 +24,18 @@ const apiUrl = environment.apiUrl;
  * Main service for communicating with the Flicktionary backend API.
  *
  * Provides methods for user registration, authentication, movie retrieval, and user profile management.
+ * Auth tokens are attached automatically by the authInterceptor.
  */
 export class FetchApiDataService {
   /**
    * Creates an instance of FetchApiDataService.
    *
    * @param http - Angular HttpClient for making HTTP requests.
-   * @param platformId - The platform identifier, used to check if code is running in the browser.
    */
-  constructor(
-    private http: HttpClient,
-    @Inject(PLATFORM_ID) private platformId: Object
-  ) {}
+  constructor(private http: HttpClient) {}
 
   /**
    * Handles HTTP errors from API requests.
-   *
-   * Logs the error and returns a user-friendly error message.
    *
    * @param error - The HTTP error response.
    * @returns An observable error to be handled by the subscriber.
@@ -61,7 +52,7 @@ export class FetchApiDataService {
    * Extracts the response data from an HTTP response.
    *
    * @param res - The HTTP response object.
-   * @returns The response body, or an empty object if not present.
+   * @returns The response body.
    */
   private extractResponseData<T>(res: T): T {
     return res;
@@ -97,16 +88,8 @@ export class FetchApiDataService {
    * @returns An Observable containing an array of movie objects.
    */
   public getAllMovies(): Observable<Movie[]> {
-    let token = '';
-    if (isPlatformBrowser(this.platformId)) {
-      token = localStorage.getItem('token') || '';
-    }
     return this.http
-      .get<Movie[]>(apiUrl + 'movies', {
-        headers: new HttpHeaders({
-          Authorization: 'Bearer ' + token,
-        }),
-      })
+      .get<Movie[]>(apiUrl + 'movies')
       .pipe(map(this.extractResponseData), catchError(this.handleError));
   }
 
@@ -117,16 +100,8 @@ export class FetchApiDataService {
    * @returns An Observable containing the movie object.
    */
   public getSingleMovie(title: string): Observable<Movie> {
-    let token = '';
-    if (isPlatformBrowser(this.platformId)) {
-      token = localStorage.getItem('token') || '';
-    }
     return this.http
-      .get<Movie>(apiUrl + 'movies/' + title, {
-        headers: new HttpHeaders({
-          Authorization: 'Bearer ' + token,
-        }),
-      })
+      .get<Movie>(apiUrl + 'movies/' + title)
       .pipe(map(this.extractResponseData), catchError(this.handleError));
   }
 
@@ -137,16 +112,8 @@ export class FetchApiDataService {
    * @returns An Observable containing the director object.
    */
   public getSingleDirector(directorName: string): Observable<Director> {
-    let token = '';
-    if (isPlatformBrowser(this.platformId)) {
-      token = localStorage.getItem('token') || '';
-    }
     return this.http
-      .get<Director>(apiUrl + 'movies/director/' + directorName, {
-        headers: new HttpHeaders({
-          Authorization: 'Bearer ' + token,
-        }),
-      })
+      .get<Director>(apiUrl + 'movies/director/' + directorName)
       .pipe(map(this.extractResponseData), catchError(this.handleError));
   }
 
@@ -157,16 +124,8 @@ export class FetchApiDataService {
    * @returns An Observable containing the genre object.
    */
   public getSingleGenre(genreName: string): Observable<Genre> {
-    let token = '';
-    if (isPlatformBrowser(this.platformId)) {
-      token = localStorage.getItem('token') || '';
-    }
     return this.http
-      .get<Genre>(apiUrl + 'movies/genre/' + genreName, {
-        headers: new HttpHeaders({
-          Authorization: 'Bearer ' + token,
-        }),
-      })
+      .get<Genre>(apiUrl + 'movies/genre/' + genreName)
       .pipe(map(this.extractResponseData), catchError(this.handleError));
   }
 
@@ -177,16 +136,8 @@ export class FetchApiDataService {
    * @returns An Observable containing the user object.
    */
   public getUser(username: string): Observable<User> {
-    let token = '';
-    if (isPlatformBrowser(this.platformId)) {
-      token = localStorage.getItem('token') || '';
-    }
     return this.http
-      .get<User>(apiUrl + 'users/' + username, {
-        headers: new HttpHeaders({
-          Authorization: 'Bearer ' + token,
-        }),
-      })
+      .get<User>(apiUrl + 'users/' + username)
       .pipe(map(this.extractResponseData), catchError(this.handleError));
   }
 
@@ -197,22 +148,9 @@ export class FetchApiDataService {
    * @returns An Observable containing the updated user object.
    */
   public addFavoriteMovie(movieId: string): Observable<User> {
-    let username = '';
-    let token = '';
-    if (isPlatformBrowser(this.platformId)) {
-      username = localStorage.getItem('user') || '';
-      token = localStorage.getItem('token') || '';
-    }
+    const username = localStorage.getItem('user') || '';
     return this.http
-      .post<User>(
-        apiUrl + 'users/' + username + '/movies/' + movieId,
-        {},
-        {
-          headers: new HttpHeaders({
-            Authorization: 'Bearer ' + token,
-          }),
-        }
-      )
+      .post<User>(apiUrl + 'users/' + username + '/movies/' + movieId, {})
       .pipe(map(this.extractResponseData), catchError(this.handleError));
   }
 
@@ -223,18 +161,9 @@ export class FetchApiDataService {
    * @returns An Observable containing the updated user object.
    */
   public deleteFavoriteMovie(movieId: string): Observable<User> {
-    let username = '';
-    let token = '';
-    if (isPlatformBrowser(this.platformId)) {
-      username = localStorage.getItem('user') || '';
-      token = localStorage.getItem('token') || '';
-    }
+    const username = localStorage.getItem('user') || '';
     return this.http
-      .delete<User>(apiUrl + 'users/' + username + '/movies/' + movieId, {
-        headers: new HttpHeaders({
-          Authorization: 'Bearer ' + token,
-        }),
-      })
+      .delete<User>(apiUrl + 'users/' + username + '/movies/' + movieId)
       .pipe(map(this.extractResponseData), catchError(this.handleError));
   }
 
@@ -245,18 +174,9 @@ export class FetchApiDataService {
    * @returns An Observable containing the updated user object.
    */
   public editUser(userDetails: UserUpdate): Observable<User> {
-    let username = '';
-    let token = '';
-    if (isPlatformBrowser(this.platformId)) {
-      username = localStorage.getItem('user') || '';
-      token = localStorage.getItem('token') || '';
-    }
+    const username = localStorage.getItem('user') || '';
     return this.http
-      .put<User>(apiUrl + 'users/' + username, userDetails, {
-        headers: new HttpHeaders({
-          Authorization: 'Bearer ' + token,
-        }),
-      })
+      .put<User>(apiUrl + 'users/' + username, userDetails)
       .pipe(map(this.extractResponseData), catchError(this.handleError));
   }
 
@@ -267,17 +187,8 @@ export class FetchApiDataService {
    * @returns An Observable containing the server's response as a string.
    */
   public deleteUser(username: string): Observable<string> {
-    let token = '';
-    if (isPlatformBrowser(this.platformId)) {
-      token = localStorage.getItem('token') || '';
-    }
     return this.http
-      .delete(apiUrl + 'users/' + username, {
-        headers: new HttpHeaders({
-          Authorization: 'Bearer ' + token,
-        }),
-        responseType: 'text',
-      })
+      .delete(apiUrl + 'users/' + username, { responseType: 'text' })
       .pipe(catchError(this.handleError));
   }
 
