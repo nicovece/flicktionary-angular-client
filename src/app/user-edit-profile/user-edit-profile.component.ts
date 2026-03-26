@@ -93,8 +93,7 @@ export class UserEditProfileComponent {
         if (passwordChanged) {
           localStorage.removeItem('user');
           localStorage.removeItem('token');
-          // Use router if injected, otherwise fallback to window.location
-          window.location.href = '/welcome';
+          this.router.navigate(['/welcome']);
         }
       },
       error: (err) => {
