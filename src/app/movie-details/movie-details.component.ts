@@ -1,4 +1,5 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, DestroyRef, Inject, OnInit, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { FetchApiDataService } from '../fetch-api-data.service';
 import { CommonModule } from '@angular/common';
@@ -29,6 +30,8 @@ export class MovieDetailsComponent implements OnInit {
    * @param data - Injected dialog data containing the movie's title.
    * @param fetchApiData - Service for fetching movie details from the API.
    */
+  private destroyRef = inject(DestroyRef);
+
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: { movieTitle: string },
     private fetchApiData: FetchApiDataService
@@ -42,6 +45,7 @@ export class MovieDetailsComponent implements OnInit {
   ngOnInit(): void {
     this.fetchApiData
       .getSingleMovie(this.data.movieTitle)
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((movie) => {
         this.movie = movie;
       });

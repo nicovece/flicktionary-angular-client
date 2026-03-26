@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, DestroyRef, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CommonModule } from '@angular/common';
 import { FetchApiDataService } from '../fetch-api-data.service';
 import { MatCardModule } from '@angular/material/card';
@@ -57,6 +58,8 @@ export class UserProfileComponent {
    * @param router - Angular Router for navigation.
    * @param dialog - Angular Material Dialog service for opening dialogs.
    */
+  private destroyRef = inject(DestroyRef);
+
   constructor(
     public fetchApiData: FetchApiDataService,
     public router: Router,
@@ -82,7 +85,9 @@ export class UserProfileComponent {
       return;
     }
     this.loading = true;
-    this.fetchApiData.getUser(username).subscribe({
+    this.fetchApiData.getUser(username)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
       next: (res: User) => {
         this.user = res;
         this.formattedBirthday = new Date(
@@ -108,7 +113,9 @@ export class UserProfileComponent {
       data: { user: this.user },
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
+    dialogRef.afterClosed()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((result) => {
       if (result) {
         this.getUser();
       }
@@ -130,7 +137,9 @@ export class UserProfileComponent {
         'Are you sure you want to delete your account? This action cannot be undone.'
       )
     ) {
-      this.fetchApiData.deleteUser(username).subscribe({
+      this.fetchApiData.deleteUser(username)
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe({
         next: () => {
           // Clean up all user-related data from localStorage
           localStorage.removeItem('user');

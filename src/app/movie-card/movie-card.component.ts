@@ -1,10 +1,13 @@
 import {
   Component,
+  DestroyRef,
   OnInit,
   Input,
   OnChanges,
   SimpleChanges,
+  inject,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CommonModule } from '@angular/common';
 import { FetchApiDataService } from '../fetch-api-data.service';
 import { MatCardModule } from '@angular/material/card';
@@ -61,6 +64,8 @@ export class MovieCardComponent implements OnInit, OnChanges {
    * @param dialog - Angular Material Dialog service for opening dialogs.
    * @param snackBar - Angular Material SnackBar service for showing notifications.
    */
+  private destroyRef = inject(DestroyRef);
+
   constructor(
     public fetchMovies: FetchApiDataService,
     public dialog: MatDialog,
@@ -99,11 +104,12 @@ export class MovieCardComponent implements OnInit, OnChanges {
    * @returns The filtered list of movies.
    */
   getMovies(): void {
-    this.fetchMovies.getAllMovies().subscribe((resp: Movie[]) => {
-      this.allMovies = resp;
-      this.filterMovies();
-      return this.movies;
-    });
+    this.fetchMovies.getAllMovies()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((resp: Movie[]) => {
+        this.allMovies = resp;
+        this.filterMovies();
+      });
   }
 
   /**
@@ -165,7 +171,9 @@ export class MovieCardComponent implements OnInit, OnChanges {
   getUserFavorites(): void {
     const username = localStorage.getItem('user');
     if (username) {
-      this.fetchMovies.getUser(username).subscribe((user: User) => {
+      this.fetchMovies.getUser(username)
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe((user: User) => {
         this.favoriteMovieIds = user.FavoriteMovies || [];
         this.filterMovies();
       });
@@ -180,7 +188,9 @@ export class MovieCardComponent implements OnInit, OnChanges {
   toggleFavorite(movie: Movie): void {
     const isFavorite = this.favoriteMovieIds.includes(movie._id);
     if (isFavorite) {
-      this.fetchMovies.deleteFavoriteMovie(movie._id).subscribe(() => {
+      this.fetchMovies.deleteFavoriteMovie(movie._id)
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe(() => {
         this.favoriteMovieIds = this.favoriteMovieIds.filter(
           (id) => id !== movie._id
         );
@@ -188,7 +198,9 @@ export class MovieCardComponent implements OnInit, OnChanges {
         this.filterMovies();
       });
     } else {
-      this.fetchMovies.addFavoriteMovie(movie._id).subscribe(() => {
+      this.fetchMovies.addFavoriteMovie(movie._id)
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe(() => {
         this.favoriteMovieIds.push(movie._id);
         this.snackBar.open('Added to favorites!', 'OK', { duration: 2000 });
         this.filterMovies();

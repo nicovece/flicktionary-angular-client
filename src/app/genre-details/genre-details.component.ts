@@ -1,4 +1,5 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, DestroyRef, Inject, OnInit, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { FetchApiDataService } from '../fetch-api-data.service';
 import { CommonModule } from '@angular/common';
@@ -29,6 +30,8 @@ export class GenreDetailsComponent implements OnInit {
    * @param data - Injected dialog data containing the genre's name.
    * @param fetchApiData - Service for fetching genre details from the API.
    */
+  private destroyRef = inject(DestroyRef);
+
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: { genreName: string },
     private fetchApiData: FetchApiDataService
@@ -40,8 +43,10 @@ export class GenreDetailsComponent implements OnInit {
    * Fetches the genre details from the API using the provided genre name.
    */
   ngOnInit(): void {
-    this.fetchApiData.getSingleGenre(this.data.genreName).subscribe((genre) => {
-      this.genre = genre;
-    });
+    this.fetchApiData.getSingleGenre(this.data.genreName)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((genre) => {
+        this.genre = genre;
+      });
   }
 }
