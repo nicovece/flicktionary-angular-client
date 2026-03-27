@@ -51,7 +51,6 @@ export class UserLoginFormComponent {
       (result) => {
         localStorage.setItem(STORAGE_KEYS.USER, result.user.Username);
         localStorage.setItem(STORAGE_KEYS.TOKEN, result.token);
-        // Logic for a successful user registration goes here! (To be implemented)
         this.dialogRef.close('success');
         this.snackBar.open(
           result.message || 'User logged in successfully!',

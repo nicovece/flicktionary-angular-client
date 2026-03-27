@@ -52,7 +52,6 @@ export class UserRegistrationFormComponent {
   registerUser(): void {
     this.fetchApiData.userRegistration(this.userData).subscribe(
       (result) => {
-        // Logic for a successful user registration goes here! (To be implemented)
         this.dialogRef.close(); // This will close the modal on success!
         this.snackBar.open(
           result.message || 'User registered successfully!',
