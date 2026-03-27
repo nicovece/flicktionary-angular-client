@@ -1,5 +1,5 @@
 // src/app/user-registration-form/user-registration-form.component.ts
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 // You'll use this import to close the dialog on success
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 // This import brings in the API calls we created in 6.2
@@ -33,29 +33,15 @@ import { UserRegistration } from '../models/models';
  *
  * Allows users to enter their details and register a new account with the backend API.
  */
-export class UserRegistrationFormComponent implements OnInit {
+export class UserRegistrationFormComponent {
+  fetchApiData = inject(FetchApiDataService);
+  dialogRef = inject<MatDialogRef<UserRegistrationFormComponent>>(MatDialogRef);
+  snackBar = inject(MatSnackBar);
+
   /**
    * The user registration data entered in the form.
    */
   @Input() userData: UserRegistration = { Username: '', Password: '', Email: '' };
-
-  /**
-   * Creates an instance of UserRegistrationFormComponent.
-   *
-   * @param fetchApiData - Service for user registration via the API.
-   * @param dialogRef - Reference to the dialog opened for registration.
-   * @param snackBar - Angular Material SnackBar service for showing notifications.
-   */
-  constructor(
-    public fetchApiData: FetchApiDataService,
-    public dialogRef: MatDialogRef<UserRegistrationFormComponent>,
-    public snackBar: MatSnackBar
-  ) {}
-
-  /**
-   * Angular lifecycle hook that is called after data-bound properties are initialized.
-   */
-  ngOnInit(): void {}
 
   /**
    * Registers a new user using the provided form data.

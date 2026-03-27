@@ -1,18 +1,24 @@
-<div class="dialog-container" *ngIf="director">
-  <h2 mat-dialog-title class="dialog-title">{{ director.Name }}</h2>
-  <mat-dialog-content class="dialog-content">
-    <p>{{ director.Description }}</p>
-    <p>{{ director.Birth | date:'longDate' }}</p>
-    <p *ngIf="director.Death">{{ director.Death }}</p>
-    <p>{{ director.Bio }}</p>
-  </mat-dialog-content>
-  <mat-dialog-actions class="dialog-actions">
-    <button mat-icon-button color="primary" [mat-dialog-close] matTooltip="Close dialog" aria-label="Close dialog"
-      class="dialog-actions__icon-button">
-      <mat-icon>close</mat-icon>
-    </button>
-  </mat-dialog-actions>
-</div>
-<div class="dialog-container" *ngIf="!director" style="display: flex; justify-content: center; padding: 2rem;">
-  <mat-progress-spinner mode="indeterminate" diameter="40"></mat-progress-spinner>
-</div>
+@if (director) {
+  <div class="dialog-container">
+    <h2 mat-dialog-title class="dialog-title">{{ director.Name }}</h2>
+    <mat-dialog-content class="dialog-content">
+      <p>{{ director.Description }}</p>
+      <p>{{ director.Birth | date:'longDate' }}</p>
+      @if (director.Death) {
+        <p>{{ director.Death }}</p>
+      }
+      <p>{{ director.Bio }}</p>
+    </mat-dialog-content>
+    <mat-dialog-actions class="dialog-actions">
+      <button mat-icon-button color="primary" [mat-dialog-close] matTooltip="Close dialog" aria-label="Close dialog"
+        class="dialog-actions__icon-button">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-dialog-actions>
+  </div>
+}
+@if (!director) {
+  <div class="dialog-container" style="display: flex; justify-content: center; padding: 2rem;">
+    <mat-progress-spinner mode="indeterminate" diameter="40"></mat-progress-spinner>
+  </div>
+}

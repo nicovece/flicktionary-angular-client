@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { FetchApiDataService } from '../fetch-api-data.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -9,7 +9,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { Router } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
-import { UserCredentials, LoginResponse, STORAGE_KEYS } from '../models/models';
+import { UserCredentials, STORAGE_KEYS } from '../models/models';
 @Component({
   selector: 'app-user-login-form',
   templateUrl: './user-login-form.component.html',
@@ -29,31 +29,16 @@ import { UserCredentials, LoginResponse, STORAGE_KEYS } from '../models/models';
  *
  * Allows users to enter their credentials and authenticate with the backend API.
  */
-export class UserLoginFormComponent implements OnInit {
+export class UserLoginFormComponent {
+  fetchApiData = inject(FetchApiDataService);
+  dialogRef = inject<MatDialogRef<UserLoginFormComponent>>(MatDialogRef);
+  snackBar = inject(MatSnackBar);
+  router = inject(Router);
+
   /**
    * The user login data entered in the form.
    */
   @Input() userData: UserCredentials = { Username: '', Password: '' };
-
-  /**
-   * Creates an instance of UserLoginFormComponent.
-   *
-   * @param fetchApiData - Service for user authentication via the API.
-   * @param dialogRef - Reference to the dialog opened for login.
-   * @param snackBar - Angular Material SnackBar service for showing notifications.
-   * @param router - Angular Router for navigation.
-   */
-  constructor(
-    public fetchApiData: FetchApiDataService,
-    public dialogRef: MatDialogRef<UserLoginFormComponent>,
-    public snackBar: MatSnackBar,
-    public router: Router
-  ) {}
-
-  /**
-   * Angular lifecycle hook that is called after data-bound properties are initialized.
-   */
-  ngOnInit(): void {}
 
   /**
    * Authenticates the user using the provided credentials.

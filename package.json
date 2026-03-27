@@ -7,11 +7,12 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "serve:ssr:flicktionary-angular-client": "node dist/flicktionary-angular-client/server/server.mjs"
+    "serve:ssr:flicktionary-angular-client": "node dist/flicktionary-angular-client/server/server.mjs",
+    "lint": "ng lint"
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "^19.2.20",
+    "@angular/animations": "^19.2.13",
     "@angular/cdk": "^19.2.17",
     "@angular/common": "^19.2.0",
     "@angular/compiler": "^19.2.0",
@@ -37,6 +38,8 @@
     "@types/jasmine": "~5.1.0",
     "@types/node": "^18.18.0",
     "angular-cli-ghpages": "^2.0.3",
+    "angular-eslint": "21.0.1",
+    "eslint": "^9.39.1",
     "jasmine-core": "~5.6.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",
@@ -44,6 +47,7 @@
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
     "typedoc": "^0.28.5",
-    "typescript": "~5.7.2"
+    "typescript": "~5.7.2",
+    "typescript-eslint": "8.46.4"
   }
 }

@@ -1,4 +1,4 @@
-import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
+import { Injectable, PLATFORM_ID, inject } from '@angular/core';
 import { CanActivate, Router, UrlTree } from '@angular/router';
 import { isPlatformBrowser } from '@angular/common';
 import { Observable } from 'rxjs';
@@ -12,16 +12,9 @@ import { STORAGE_KEYS } from './models/models';
  * If not authenticated, redirects to the welcome page.
  */
 export class AuthGuard implements CanActivate {
-  /**
-   * Creates an instance of AuthGuard.
-   *
-   * @param router - Angular Router for navigation and redirection.
-   * @param platformId - The platform identifier, used to check if code is running in the browser.
-   */
-  constructor(
-    private router: Router,
-    @Inject(PLATFORM_ID) private platformId: Object
-  ) {}
+  private router = inject(Router);
+  private platformId = inject<object>(PLATFORM_ID);
+
 
   /**
    * Determines whether a route can be activated based on user authentication status.

@@ -1,5 +1,5 @@
 // src/app/app.component.ts
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { UserRegistrationFormComponent } from '../user-registration-form/user-registration-form.component';
 import { MatDialog } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
@@ -20,18 +20,13 @@ import { MatIconModule } from '@angular/material/icon';
  * Provides entry points for user registration, login, and browsing movies.
  */
 export class WelcomePageComponent {
+  dialog = inject(MatDialog);
+  private router = inject(Router);
+
   /**
    * The title of the application, displayed on the welcome page.
    */
   title = 'flicktionary-angular-client';
-
-  /**
-   * Creates an instance of WelcomePageComponent.
-   *
-   * @param dialog - Angular Material Dialog service for opening dialogs.
-   * @param router - Angular Router for navigation.
-   */
-  constructor(public dialog: MatDialog, private router: Router) {}
 
   /**
    * Opens the user registration dialog when the signup button is clicked.

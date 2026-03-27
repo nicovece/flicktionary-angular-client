@@ -1,35 +1,43 @@
-<div class="container movie-card-container" *ngIf="!loading && !error">
-  <mat-card *ngFor="let movie of movies;" class="movie-card" appearance="outlined">
-    <mat-card-header>
-      <mat-card-title>{{movie.Title}}</mat-card-title>
-    </mat-card-header>
-    <div class="movie-card__image-container">
-      <img class="movie-card__image" src={{movie.ImagePath}} alt={{movie.Title}} />
-    </div>
-    <mat-card-actions>
-      <button mat-button color="primary" (click)="openGenreDetailsDialog(movie.Genre)">
-        Genre
-      </button>
-      <button mat-button color="primary" (click)="openDirectorDetailsDialog(movie.Director)">
-        Director
-      </button>
-      <button mat-button color="primary" (click)="openMovieDetailsDialog(movie)">
-        Details
-      </button>
-      <button mat-icon-button (click)="toggleFavorite(movie)">
-        <mat-icon class="movie-card__favorite-icon">
-          {{ favoriteMovieIds.includes(movie._id) ? 'favorite' : 'favorite_border' }}
-        </mat-icon>
-      </button>
-    </mat-card-actions>
-  </mat-card>
-</div>
+@if (!loading && !error) {
+  <div class="container movie-card-container">
+    @for (movie of movies; track movie) {
+      <mat-card class="movie-card" appearance="outlined">
+        <mat-card-header>
+          <mat-card-title>{{movie.Title}}</mat-card-title>
+        </mat-card-header>
+        <div class="movie-card__image-container">
+          <img class="movie-card__image" src={{movie.ImagePath}} alt={{movie.Title}} />
+        </div>
+        <mat-card-actions>
+          <button mat-button color="primary" (click)="openGenreDetailsDialog(movie.Genre)">
+            Genre
+          </button>
+          <button mat-button color="primary" (click)="openDirectorDetailsDialog(movie.Director)">
+            Director
+          </button>
+          <button mat-button color="primary" (click)="openMovieDetailsDialog(movie)">
+            Details
+          </button>
+          <button mat-icon-button (click)="toggleFavorite(movie)">
+            <mat-icon class="movie-card__favorite-icon">
+              {{ favoriteMovieIds.includes(movie._id) ? 'favorite' : 'favorite_border' }}
+            </mat-icon>
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    }
+  </div>
+}
 
-<div class="container" *ngIf="loading" style="display: flex; justify-content: center; padding: 4rem 0;">
-  <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
-</div>
+@if (loading) {
+  <div class="container" style="display: flex; justify-content: center; padding: 4rem 0;">
+    <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+  </div>
+}
 
-<div class="container" *ngIf="error" style="text-align: center; padding: 4rem 0;">
-  <p>{{ error }}</p>
-  <button mat-raised-button color="primary" (click)="getMovies()">Try Again</button>
-</div>
+@if (error) {
+  <div class="container" style="text-align: center; padding: 4rem 0;">
+    <p>{{ error }}</p>
+    <button mat-raised-button color="primary" (click)="getMovies()">Try Again</button>
+  </div>
+}

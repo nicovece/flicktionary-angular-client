@@ -1,15 +1,19 @@
-<div class="dialog-container" *ngIf="genre">
-  <h2 mat-dialog-title class="dialog-title">{{ genre.Name }}</h2>
-  <mat-dialog-content class="dialog-content">
-    <p>{{ genre.Description }}</p>
-  </mat-dialog-content>
-  <mat-dialog-actions class="dialog-actions">
-    <button mat-icon-button color="primary" [mat-dialog-close] matTooltip="Close dialog" aria-label="Close dialog"
-      class="dialog-actions__icon-button">
-      <mat-icon>close</mat-icon>
-    </button>
-  </mat-dialog-actions>
-</div>
-<div class="dialog-container" *ngIf="!genre" style="display: flex; justify-content: center; padding: 2rem;">
-  <mat-progress-spinner mode="indeterminate" diameter="40"></mat-progress-spinner>
-</div>
+@if (genre) {
+  <div class="dialog-container">
+    <h2 mat-dialog-title class="dialog-title">{{ genre.Name }}</h2>
+    <mat-dialog-content class="dialog-content">
+      <p>{{ genre.Description }}</p>
+    </mat-dialog-content>
+    <mat-dialog-actions class="dialog-actions">
+      <button mat-icon-button color="primary" [mat-dialog-close] matTooltip="Close dialog" aria-label="Close dialog"
+        class="dialog-actions__icon-button">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-dialog-actions>
+  </div>
+}
+@if (!genre) {
+  <div class="dialog-container" style="display: flex; justify-content: center; padding: 2rem;">
+    <mat-progress-spinner mode="indeterminate" diameter="40"></mat-progress-spinner>
+  </div>
+}

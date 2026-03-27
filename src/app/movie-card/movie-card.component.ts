@@ -8,7 +8,7 @@ import {
   inject,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { CommonModule } from '@angular/common';
+
 import { FetchApiDataService } from '../fetch-api-data.service';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -27,14 +27,13 @@ import { Movie, Genre, Director, User, STORAGE_KEYS } from '../models/models';
   templateUrl: './movie-card.component.html',
   styleUrls: ['./movie-card.component.scss'],
   imports: [
-    CommonModule,
     MatCardModule,
     MatButtonModule,
     MatDialogModule,
     MatSnackBarModule,
     MatIconModule,
-    MatProgressSpinnerModule,
-  ],
+    MatProgressSpinnerModule
+],
 })
 /**
  * Component for displaying a grid or list of movie cards.
@@ -42,6 +41,10 @@ import { Movie, Genre, Director, User, STORAGE_KEYS } from '../models/models';
  * Handles displaying all movies, filtering by favorites, and managing favorite status.
  */
 export class MovieCardComponent implements OnInit, OnChanges {
+  fetchMovies = inject(FetchApiDataService);
+  dialog = inject(MatDialog);
+  private snackBar = inject(MatSnackBar);
+
   /**
    * The list of movies currently displayed (filtered or all).
    */
@@ -69,12 +72,6 @@ export class MovieCardComponent implements OnInit, OnChanges {
    * @param snackBar - Angular Material SnackBar service for showing notifications.
    */
   private destroyRef = inject(DestroyRef);
-
-  constructor(
-    public fetchMovies: FetchApiDataService,
-    public dialog: MatDialog,
-    private snackBar: MatSnackBar
-  ) {}
 
   /**
    * Angular lifecycle hook called after component initialization.

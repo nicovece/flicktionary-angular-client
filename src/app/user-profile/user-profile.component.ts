@@ -1,6 +1,6 @@
-import { Component, DestroyRef, inject } from '@angular/core';
+import { Component, DestroyRef, OnInit, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { CommonModule } from '@angular/common';
+
 import { FetchApiDataService } from '../fetch-api-data.service';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -18,7 +18,6 @@ import { User, STORAGE_KEYS } from '../models/models';
 @Component({
   selector: 'app-user-profile',
   imports: [
-    CommonModule,
     MatCardModule,
     MatButtonModule,
     MatDialogModule,
@@ -27,8 +26,8 @@ import { User, STORAGE_KEYS } from '../models/models';
     MatFormFieldModule,
     MatInputModule,
     MatProgressSpinnerModule,
-    MovieCardComponent,
-  ],
+    MovieCardComponent
+],
   templateUrl: './user-profile.component.html',
   styleUrl: './user-profile.component.scss',
 })
@@ -37,7 +36,11 @@ import { User, STORAGE_KEYS } from '../models/models';
  *
  * Shows user information, allows editing the profile, and account deletion.
  */
-export class UserProfileComponent {
+export class UserProfileComponent implements OnInit {
+  fetchApiData = inject(FetchApiDataService);
+  router = inject(Router);
+  dialog = inject(MatDialog);
+
   /**
    * The user data object fetched from the API.
    */
@@ -49,7 +52,7 @@ export class UserProfileComponent {
   /**
    * The user's birthday formatted as a locale date string.
    */
-  formattedBirthday: string = '';
+  formattedBirthday = '';
 
   /**
    * Creates an instance of UserProfileComponent.
@@ -59,12 +62,6 @@ export class UserProfileComponent {
    * @param dialog - Angular Material Dialog service for opening dialogs.
    */
   private destroyRef = inject(DestroyRef);
-
-  constructor(
-    public fetchApiData: FetchApiDataService,
-    public router: Router,
-    public dialog: MatDialog
-  ) {}
 
   /**
    * Angular lifecycle hook that is called after data-bound properties are initialized.
@@ -95,9 +92,8 @@ export class UserProfileComponent {
         ).toLocaleDateString();
         this.loading = false;
       },
-      error: (err) => {
+      error: () => {
         this.loading = false;
-        // Optionally handle error
       },
     });
   }
@@ -154,8 +150,7 @@ export class UserProfileComponent {
           // Redirect to welcome view
           this.router.navigate(['/welcome']);
         },
-        error: (err) => {
-          // Optionally show an error message
+        error: () => {
           // Error handled silently - user stays on the page
         },
       });

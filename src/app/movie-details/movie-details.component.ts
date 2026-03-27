@@ -1,8 +1,8 @@
-import { Component, DestroyRef, Inject, OnInit, inject } from '@angular/core';
+import { Component, DestroyRef, OnInit, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { FetchApiDataService } from '../fetch-api-data.service';
-import { CommonModule } from '@angular/common';
+
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -10,7 +10,7 @@ import { Movie } from '../models/models';
 
 @Component({
   selector: 'app-movie-details',
-  imports: [CommonModule, MatDialogModule, MatIconModule, MatButtonModule, MatProgressSpinnerModule],
+  imports: [MatDialogModule, MatIconModule, MatButtonModule, MatProgressSpinnerModule],
   templateUrl: './movie-details.component.html',
   styleUrl: './movie-details.component.scss',
 })
@@ -20,6 +20,11 @@ import { Movie } from '../models/models';
  * Fetches and displays information about the specified movie when opened.
  */
 export class MovieDetailsComponent implements OnInit {
+  data = inject<{
+    movieTitle: string;
+}>(MAT_DIALOG_DATA);
+  private fetchApiData = inject(FetchApiDataService);
+
   /**
    * The movie data fetched from the API.
    */
@@ -32,11 +37,6 @@ export class MovieDetailsComponent implements OnInit {
    * @param fetchApiData - Service for fetching movie details from the API.
    */
   private destroyRef = inject(DestroyRef);
-
-  constructor(
-    @Inject(MAT_DIALOG_DATA) public data: { movieTitle: string },
-    private fetchApiData: FetchApiDataService
-  ) {}
 
   /**
    * Angular lifecycle hook that is called after data-bound properties are initialized.

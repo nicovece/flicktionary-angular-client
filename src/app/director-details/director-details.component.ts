@@ -1,4 +1,4 @@
-import { Component, DestroyRef, Inject, OnInit, inject } from '@angular/core';
+import { Component, DestroyRef, OnInit, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { FetchApiDataService } from '../fetch-api-data.service';
@@ -20,6 +20,11 @@ import { Director } from '../models/models';
  * Fetches and displays information about the specified director when opened.
  */
 export class DirectorDetailsComponent implements OnInit {
+  data = inject<{
+    directorName: string;
+}>(MAT_DIALOG_DATA);
+  private fetchApiData = inject(FetchApiDataService);
+
   /**
    * The director data fetched from the API.
    */
@@ -32,11 +37,6 @@ export class DirectorDetailsComponent implements OnInit {
    * @param fetchApiData - Service for fetching director details from the API.
    */
   private destroyRef = inject(DestroyRef);
-
-  constructor(
-    @Inject(MAT_DIALOG_DATA) public data: { directorName: string },
-    private fetchApiData: FetchApiDataService
-  ) {}
 
   /**
    * Angular lifecycle hook that is called after data-bound properties are initialized.

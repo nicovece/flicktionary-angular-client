@@ -3,7 +3,6 @@ import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { of, throwError } from 'rxjs';
-import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MovieCardComponent } from './movie-card.component';
 import { FetchApiDataService } from '../fetch-api-data.service';
@@ -17,7 +16,6 @@ describe('MovieCardComponent', () => {
   let component: MovieCardComponent;
   let fixture: ComponentFixture<MovieCardComponent>;
   let fetchApiSpy: jasmine.SpyObj<FetchApiDataService>;
-  let dialogSpy: jasmine.SpyObj<MatDialog>;
   let snackBarSpy: jasmine.SpyObj<MatSnackBar>;
 
   beforeEach(async () => {
@@ -27,7 +25,6 @@ describe('MovieCardComponent', () => {
       'addFavoriteMovie',
       'deleteFavoriteMovie',
     ]);
-    dialogSpy = jasmine.createSpyObj('MatDialog', ['open']);
     snackBarSpy = jasmine.createSpyObj('MatSnackBar', ['open']);
 
     // Default: movies load successfully
@@ -118,7 +115,7 @@ describe('MovieCardComponent', () => {
     fixture.detectChanges();
 
     const icons = fixture.nativeElement.querySelectorAll('mat-icon.movie-card__favorite-icon');
-    const texts = Array.from(icons).map((icon: any) => icon.textContent.trim());
+    const texts = Array.from(icons as NodeListOf<Element>).map((icon) => icon.textContent?.trim());
     expect(texts).toContain('favorite');
   });
 
@@ -129,7 +126,7 @@ describe('MovieCardComponent', () => {
     fixture.detectChanges();
 
     const icons = fixture.nativeElement.querySelectorAll('mat-icon.movie-card__favorite-icon');
-    const texts = Array.from(icons).map((icon: any) => icon.textContent.trim());
+    const texts = Array.from(icons as NodeListOf<Element>).map((icon) => icon.textContent?.trim());
     expect(texts).toContain('favorite_border');
   });
 

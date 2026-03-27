@@ -1,8 +1,8 @@
-import { Component, DestroyRef, Inject, OnInit, inject } from '@angular/core';
+import { Component, DestroyRef, OnInit, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { FetchApiDataService } from '../fetch-api-data.service';
-import { CommonModule } from '@angular/common';
+
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -10,7 +10,7 @@ import { Genre } from '../models/models';
 
 @Component({
   selector: 'app-genre-details',
-  imports: [CommonModule, MatDialogModule, MatIconModule, MatButtonModule, MatProgressSpinnerModule],
+  imports: [MatDialogModule, MatIconModule, MatButtonModule, MatProgressSpinnerModule],
   templateUrl: './genre-details.component.html',
   styleUrl: './genre-details.component.scss',
 })
@@ -20,6 +20,11 @@ import { Genre } from '../models/models';
  * Fetches and displays information about the specified genre when opened.
  */
 export class GenreDetailsComponent implements OnInit {
+  data = inject<{
+    genreName: string;
+}>(MAT_DIALOG_DATA);
+  private fetchApiData = inject(FetchApiDataService);
+
   /**
    * The genre data fetched from the API.
    */
@@ -32,11 +37,6 @@ export class GenreDetailsComponent implements OnInit {
    * @param fetchApiData - Service for fetching genre details from the API.
    */
   private destroyRef = inject(DestroyRef);
-
-  constructor(
-    @Inject(MAT_DIALOG_DATA) public data: { genreName: string },
-    private fetchApiData: FetchApiDataService
-  ) {}
 
   /**
    * Angular lifecycle hook that is called after data-bound properties are initialized.

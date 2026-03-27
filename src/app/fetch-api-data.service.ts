@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { catchError, map } from 'rxjs/operators';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
@@ -28,12 +28,8 @@ const apiUrl = environment.apiUrl;
  * Auth tokens are attached automatically by the authInterceptor.
  */
 export class FetchApiDataService {
-  /**
-   * Creates an instance of FetchApiDataService.
-   *
-   * @param http - Angular HttpClient for making HTTP requests.
-   */
-  constructor(private http: HttpClient) {}
+  private http = inject(HttpClient);
+
 
   /**
    * Handles HTTP errors from API requests.

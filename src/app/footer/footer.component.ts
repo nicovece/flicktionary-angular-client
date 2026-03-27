@@ -1,4 +1,4 @@
-import { Component, Inject, PLATFORM_ID } from '@angular/core';
+import { Component, PLATFORM_ID, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatMenuModule } from '@angular/material/menu';
@@ -28,21 +28,13 @@ import { STORAGE_KEYS } from '../models/models';
  * Displays the current date and provides user authentication status and logout functionality.
  */
 export class FooterComponent {
+  private router = inject(Router);
+  private platformId = inject<object>(PLATFORM_ID);
+
   /**
    * The current date, used for display in the footer.
    */
   today = new Date();
-
-  /**
-   * Creates an instance of FooterComponent.
-   *
-   * @param router - Angular Router for navigation.
-   * @param platformId - The platform identifier, used to check if code is running in the browser.
-   */
-  constructor(
-    private router: Router,
-    @Inject(PLATFORM_ID) private platformId: Object
-  ) {}
 
   /**
    * Indicates whether the user is currently logged in.

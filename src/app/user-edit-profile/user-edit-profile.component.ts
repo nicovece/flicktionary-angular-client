@@ -1,5 +1,5 @@
-import { CommonModule } from '@angular/common';
-import { Component, Inject, OnInit } from '@angular/core';
+
+import { Component, OnInit, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import {
   MatDialogModule,
@@ -18,15 +18,14 @@ import { User, UserUpdate, STORAGE_KEYS } from '../models/models';
   selector: 'app-user-edit-profile',
   standalone: true,
   imports: [
-    CommonModule,
     MatCardModule,
     MatDialogModule,
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
     MatSnackBarModule,
-    FormsModule,
-  ],
+    FormsModule
+],
   templateUrl: './user-edit-profile.component.html',
   styleUrl: './user-edit-profile.component.scss',
 })
@@ -35,28 +34,19 @@ import { User, UserUpdate, STORAGE_KEYS } from '../models/models';
  *
  * Allows the user to update their profile details and password.
  */
-export class UserEditProfileComponent {
+export class UserEditProfileComponent implements OnInit {
+  fetchApiData = inject(FetchApiDataService);
+  dialogRef = inject<MatDialogRef<UserEditProfileComponent>>(MatDialogRef);
+  data = inject<{
+    user: User;
+}>(MAT_DIALOG_DATA);
+  snackBar = inject(MatSnackBar);
+  router = inject(Router);
+
   /**
    * The form data for editing the user profile.
    */
   editUserData: UserUpdate = {};
-
-  /**
-   * Creates an instance of UserEditProfileComponent.
-   *
-   * @param fetchApiData - Service for updating user data via the API.
-   * @param dialogRef - Reference to the dialog opened for editing the profile.
-   * @param data - Injected dialog data containing the current user object.
-   * @param snackBar - Angular Material SnackBar service for showing notifications.
-   * @param router - Angular Router for navigation.
-   */
-  constructor(
-    public fetchApiData: FetchApiDataService,
-    public dialogRef: MatDialogRef<UserEditProfileComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { user: User },
-    public snackBar: MatSnackBar,
-    public router: Router
-  ) {}
 
   /**
    * Angular lifecycle hook that is called after data-bound properties are initialized.
@@ -85,7 +75,7 @@ export class UserEditProfileComponent {
     const passwordChanged = !!this.editUserData.Password;
 
     this.fetchApiData.editUser(updatePayload).subscribe({
-      next: (result) => {
+      next: () => {
         this.snackBar.open('Profile updated successfully!', 'OK', {
           duration: 2000,
         });
@@ -96,7 +86,7 @@ export class UserEditProfileComponent {
           this.router.navigate(['/welcome']);
         }
       },
-      error: (err) => {
+      error: () => {
         this.snackBar.open('Update failed. Please try again.', 'OK', {
           duration: 2000,
         });
